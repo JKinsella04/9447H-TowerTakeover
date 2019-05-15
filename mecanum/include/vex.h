@@ -5,7 +5,7 @@
 
 #include "v5.h"
 #include "v5_vcs.h"
-//
+
 vex::brain Brain;
 vex::motor frontright (vex::PORT19, vex::gearSetting::ratio18_1,true);
 vex::motor frontleft (vex::PORT12, vex::gearSetting::ratio18_1,false);
@@ -13,6 +13,13 @@ vex::motor backright (vex::PORT20, vex::gearSetting::ratio18_1,true);
 vex::motor backleft (vex::PORT11, vex::gearSetting::ratio18_1,false);
 vex::controller con(vex::controllerType::primary);
 
+vex::motor FrontRight (vex::PORT19, vex::gearSetting::ratio18_1,true);
+vex::motor FrontLeft (vex::PORT12, vex::gearSetting::ratio18_1,false);
+vex::motor BackRight (vex::PORT20, vex::gearSetting::ratio18_1,true);
+vex::motor BackLeft (vex::PORT11, vex::gearSetting::ratio18_1,false);
+vex::motor Intake1 (vex::PORT6, vex::gearSetting::ratio6_1,false);
+vex::motor Intake2 (vex::PORT5, vex::gearSetting::ratio6_1,true);
+vex::controller Controller = vex::controller();
 vex::pwm_out Pwm_outa = vex::pwm_out(Brain.ThreeWirePort.A);
 vex::pwm_out Pwm_outb = vex::pwm_out(Brain.ThreeWirePort.B);
 vex::pwm_out Pwm_outc = vex::pwm_out(Brain.ThreeWirePort.C);

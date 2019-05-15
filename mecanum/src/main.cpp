@@ -5,6 +5,7 @@
 #include <rollerintake.h>
 #include <lift.h>
 
+#include <intake.h>
 using namespace vex;
 
 
@@ -12,6 +13,7 @@ using namespace vex;
 
 int main(void) {
     while(true) {
+        intake();
         //Get the raw sums of the X and Y joystick axes
         double front_left  = (double)(con.Axis3.position(pct) + con.Axis4.position(pct));
         double back_left   = (double)(con.Axis3.position(pct) - con.Axis4.position(pct));
@@ -54,6 +56,7 @@ int main(void) {
          backleft.spin(fwd,back_left,  velocityUnits::pct);
          frontright.spin(fwd,front_right,velocityUnits::pct);
          backright.spin(fwd,back_right, velocityUnits::pct);
+         
     }
 }
  
