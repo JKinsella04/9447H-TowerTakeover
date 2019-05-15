@@ -1,3 +1,4 @@
+//Don't include this in the notebook yet because it is not doing anything
 /*vex-vision-config:begin*/
 #include "v5.h"
 #include "v5_vcs.h"
