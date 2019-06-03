@@ -11,9 +11,13 @@ vex::motor frontright (vex::PORT19, vex::gearSetting::ratio18_1,true);
 vex::motor frontleft (vex::PORT12, vex::gearSetting::ratio18_1,false);
 vex::motor backright (vex::PORT20, vex::gearSetting::ratio18_1,true);
 vex::motor backleft (vex::PORT11, vex::gearSetting::ratio18_1,false);
+vex::motor liftmotor1 (vex::PORT11, vex::gearSetting::ratio18_1,false);
+vex::motor liftmotor2 (vex::PORT11, vex::gearSetting::ratio18_1,true);
+vex::motor intake1 (vex::PORT11, vex::gearSetting::ratio18_1,false);
+vex::motor intake2 (vex::PORT11, vex::gearSetting::ratio18_1,true);
 vex::controller con(vex::controllerType::primary);
 
-vex::pwm_out Pwm_outa = vex::pwm_out(Brain.ThreeWirePort.A);
+vex::limit Limit = vex::limit(Brain.ThreeWirePort.A);
 vex::pwm_out Pwm_outb = vex::pwm_out(Brain.ThreeWirePort.B);
 vex::pwm_out Pwm_outc = vex::pwm_out(Brain.ThreeWirePort.C);
 vex::pwm_out Pwm_outd = vex::pwm_out(Brain.ThreeWirePort.D);
