@@ -24,91 +24,116 @@ double speed = 75;
   - 
 */
 
-void fourWheelDrive (double ecount, double speed) { // With this function we can use it to move the robot either forwards with a positive ecount or backwards with a negative ecount
-    frontleft.resetRotation();    //These four lines reset the encoders in the drive base motors to 0
-    frontright.resetRotation();
-    backleft.resetRotation();
-    backright.resetRotation();
-    frontleft.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct); //These four lines actually rotate the drive base motors exactly to the encoder postition that is defined by ecount which is the first number you give the function when you call it
-    frontright.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-    backleft.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-    backright.rotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct); //This line rotates the motor but it will also make the robot wait and not go to the next line of code until this motor gets to the encoder count
+void fourWheelDrive(
+    double ecount, double speed) { // With this function we can use it to move
+                                   // the robot either forwards with a positive ecount or backwards with a negative ecount
+  frontleft.resetRotation(); // These next four lines reset the encoders in the drive base motors to 0
+  frontright.resetRotation();
+  backleft.resetRotation();
+  backright.resetRotation();
+  frontleft.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct); // These next four lines actually rotate the drive base motors exactly to the encoder postition
+                                // that is defined by ecount which is the first number you give the function when you call it
+  frontright.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  backleft.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  backright.rotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct); // This line rotates the motor but it will also make the robot wait and not go to the next
+                                // line of code until this motor gets to the encoder count
 }
 
-void strafeRight (double ecount, double speed) {
-    frontleft.resetRotation();    //These four lines reset the encoders in the drive base motors to 0
-    frontright.resetRotation();
-    backleft.resetRotation();
-    backright.resetRotation();
-    frontleft.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct); //The front left motor and back right motor need to go forward and the back left and front right need to go backward for the robot to strafe to the right. The first and last lines make the front left and back right go forward and the second and third lines make the back left and front right motors go backward causing the robot to strafe right.
-    frontright.startRotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-    backleft.startRotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-    backright.rotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct); 
+void strafeRight(double ecount, double speed) {
+  frontleft.resetRotation(); // These four lines reset the encoders in the drive base motors to 0
+  frontright.resetRotation();
+  backleft.resetRotation();
+  backright.resetRotation();
+  frontleft.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct); // The front left motor and back right motor need to go forward
+                // and the back left and front right need to go backward for the
+                // robot to strafe to the right. The first and last lines make the front left and back right go forward and the second and
+                // third lines make the back left and front right motors go backward causing the robot to strafe right.
+  frontright.startRotateTo(-ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  backleft.startRotateTo(-ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  backright.rotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
 }
 
-void strafeLeft (double ecount, double speed) {
-    frontleft.resetRotation();    //These four lines reset the encoders in the drive base motors to 0
-    frontright.resetRotation();
-    backleft.resetRotation();
-    backright.resetRotation();
-    frontleft.startRotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct); //The code is the same as the previous function just that the motors are told to the opposite way from before, now front left and back right go backward and front right and back left go forward causing the robot to strafe left.
-    frontright.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-    backleft.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-    backright.rotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct); 
+void strafeLeft(double ecount, double speed) {
+  frontleft.resetRotation(); // These four lines reset the encoders in the drive base motors to 0
+  frontright.resetRotation();
+  backleft.resetRotation();
+  backright.resetRotation();
+  frontleft.startRotateTo(-ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct); // The code is the same as the previous function
+                                // just that the motors are told to the opposite
+                                // way from before, now front left and back right
+                                // go backward and front right and back left go
+                                // forward causing the robot to strafe left.
+  frontright.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  backleft.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  backright.rotateTo(-ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
 }
 
-void turnRight (double count, double speed) {
-   backleft.resetRotation(); //Resets the encoder of the back left motor. This is the motor we are basing our turn off of since it travels the farthest
-    if(frontleft.rotation(rotationUnits::deg) < count) { //A Basic if loop where it checks to see if the back left motor encoder is less then the number we introduce into the function (count)
-    frontleft.spin(vex::directionType::fwd,50,vex::velocityUnits::rpm); // If it passes the if loop it will begin spinning all the drive base motors the needed way to turn right
-    backleft.spin(vex::directionType::fwd,50,vex::velocityUnits::rpm); // It spins the left motors forward and the right motors backwards
-    frontright.spin(vex::directionType::rev,50,vex::velocityUnits::rpm);
-    backright.spin(vex::directionType::rev,50,vex::velocityUnits::rpm);
+void turnRight(double count, double speed) {
+  backleft.resetRotation(); // Resets the encoder of the back left motor. This is the motor we are basing our turn off of since it travels the farthest
+  if (frontleft.rotation(rotationUnits::deg) < count) { // A Basic if loop where it checks to see if the back left motor
+               // encoder is less then the number we introduce into the function (count)
+    frontleft.spin(vex::directionType::fwd, 50,vex::velocityUnits::rpm); // If it passes the if loop it will begin
+                                  // spinning all the drive base motors the needed way to turn right
+    backleft.spin(vex::directionType::fwd, 50,vex::velocityUnits::rpm); // It spins the left motors forward
+                                            // and the right motors backwards
+    frontright.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
+    backright.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
     task::sleep(1000);
-    while(backleft.rotation(rotationUnits::deg) < count) { // This while loop checks the speed of the back left motor while the back left motor is not at the wanted position. When it reaches that position it will stop the motors.
-        if(backleft.velocity(velocityUnits::dps) < 1) {
-            break;
-        }
+    while (backleft.rotation(rotationUnits::deg) <
+           count) { // This while loop checks the speed of the back left motor
+                    // while the back left motor is not at the wanted position. When it reaches that position it will stop the motors.
+      if (backleft.velocity(velocityUnits::dps) < 1) {
+        break;
+      }
     }
-        frontleft.stop();
-        backleft.stop();
-        frontright.stop();
-        backright.stop(); 
-    }
+    frontleft.stop();
+    backleft.stop();
+    frontright.stop();
+    backright.stop();
+  }
 }
 
-void turnLeft (double count, double speed) {
-   backright.resetRotation(); //Resets the encoder of the back right motor. This is the motor we are basing our turn off of since it travels the farthest
-    if(frontleft.rotation(rotationUnits::deg) < count) { //A Basic if loop where it checks to see if the back right motor encoder is less then the number we introduce into the function (count)
-    frontleft.spin(vex::directionType::rev,50,vex::velocityUnits::rpm); // If it passes the if loop it will begin spinning all the drive base motors the needed way to turn right
-    backleft.spin(vex::directionType::rev,50,vex::velocityUnits::rpm); // It spins the left motors backwards and the right motors forward
-    frontright.spin(vex::directionType::fwd,50,vex::velocityUnits::rpm);
-    backright.spin(vex::directionType::fwd,50,vex::velocityUnits::rpm);
+void turnLeft(double count, double speed) {
+  backright.resetRotation(); // Resets the encoder of the back right motor. This
+                             // is the motor we are basing our turn off of since it travels the farthest
+  if (frontleft.rotation(rotationUnits::deg) <
+      count) { // A Basic if loop where it checks to see if the back right motor
+               // encoder is less then the number we introduce into the function (count)
+    frontleft.spin(vex::directionType::rev, 50,vex::velocityUnits::rpm); // If it passes the if loop it will begin
+                                  // spinning all the drive base motors the needed way to turn right
+    backleft.spin(vex::directionType::rev, 50,vex::velocityUnits::rpm); // It spins the left motors backwards and the right motors forward
+    frontright.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
+    backright.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
     task::sleep(1000);
-    while(backleft.rotation(rotationUnits::deg) < count) { // This while loop checks the speed of the back right motor while the back right motor is not at the wanted position. When it reaches that position it will stop the motors
-        if(backleft.velocity(velocityUnits::dps) < 1) {
-            break;
-        }
+    while (backleft.rotation(rotationUnits::deg) < count) { // This while loop checks the speed of the back right motor
+                    // while the back right motor is not at the wanted position. When it reaches that position it will stop the motors
+      if (backleft.velocity(velocityUnits::dps) < 1) {
+        break;
+      }
     }
-        frontleft.stop();
-        backleft.stop();
-        frontright.stop();
-        backright.stop(); 
-    }
+    frontleft.stop();
+    backleft.stop();
+    frontright.stop();
+    backright.stop();
+  }
 }
 
-void lift (double ecount, double speed) { // Very basic function where it will reset the encoders on the lift motors and then it will rotate the lift motors until it gets to the wanted position. This function will require the second lift motor to come to a stop before it will continue to the next line of code
+void lift(double ecount,double speed) { // Very basic function where it will reset the encoders on
+                    // the lift motors and then it will rotate the lift motors until it gets to the wanted position. This function will
+                    // require the second lift motor to come to a stop before it will continue to the next line of code
   liftmotor1.resetRotation();
   liftmotor2.resetRotation();
-  liftmotor1.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-  liftmotor2.rotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  liftmotor1.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  liftmotor2.rotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
 }
 
-void intake (double ecount, double speed) { // Very basic function where it will reset the encoders on the intake motors and then it will rotate the intake motors until it gets to the wanted position. This function will require the second lift motor to come to a stop before it will continue to the next line of code
+void intake(double ecount,double speed) { // Very basic function where it will reset the encoders on
+                    // the intake motors and then it will rotate the intake motors until it gets to the wanted position. This
+                    // function will require the second lift motor to come to a stop before it will continue to the next line of code
   leftintake.resetRotation();
   rightintake.resetRotation();
-  leftintake.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-  rightintake.rotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  leftintake.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  rightintake.rotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
 }
 
 /* Driver Control Functions needed for the robot
