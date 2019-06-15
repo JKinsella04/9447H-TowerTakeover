@@ -1,5 +1,6 @@
 #include "README.h"
 #include "vex.h"
+#include "pseudo.h"
 #include <algorithm>
 #include <cmath>
 
@@ -93,6 +94,7 @@ void usercontrol(void) {
     backright.spin(fwd, back_right, velocityUnits::pct);
     vex::task::sleep(20); // Sleep the task for a short amount of time to
                           // prevent wasted resources.
+    obtaincube();
   }
 }
 

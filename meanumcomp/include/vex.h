@@ -13,8 +13,8 @@ vex::motor backright (vex::PORT20, vex::gearSetting::ratio18_1,true);
 vex::motor backleft (vex::PORT11, vex::gearSetting::ratio18_1,false);
 vex::motor liftmotor1 (vex::PORT11, vex::gearSetting::ratio18_1,false);
 vex::motor liftmotor2 (vex::PORT11, vex::gearSetting::ratio18_1,true);
-vex::motor intake1 (vex::PORT11, vex::gearSetting::ratio18_1,false);
-vex::motor intake2 (vex::PORT11, vex::gearSetting::ratio18_1,true);
+vex::motor leftintake (vex::PORT3, vex::gearSetting::ratio18_1,true);
+vex::motor rightintake (vex::PORT10, vex::gearSetting::ratio18_1,false);
 vex::controller con(vex::controllerType::primary);
 
 vex::limit Limit = vex::limit(Brain.ThreeWirePort.A);

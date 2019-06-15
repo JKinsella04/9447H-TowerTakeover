@@ -1,5 +1,4 @@
 using namespace vex;
-#include "vex.h"
 
 double speed = 75;
 
@@ -106,10 +105,10 @@ void lift (double ecount, double speed) { // Very basic function where it will r
 }
 
 void intake (double ecount, double speed) { // Very basic function where it will reset the encoders on the intake motors and then it will rotate the intake motors until it gets to the wanted position. This function will require the second lift motor to come to a stop before it will continue to the next line of code
-  intake1.resetRotation();
-  intake2.resetRotation();
-  intake1.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-  intake2.rotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  leftintake.resetRotation();
+  rightintake.resetRotation();
+  leftintake.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  rightintake.rotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
 }
 
 /* Driver Control Functions needed for the robot
@@ -151,28 +150,41 @@ void liftup () {
 
 void obtaincube () {
   if (con.ButtonLeft.pressing() ==1) {
+    /*
     liftmotor1.startRotateTo(0, rotationUnits::deg, 100,velocityUnits::rpm);
     liftmotor2.startRotateTo(0, rotationUnits::deg, 100,velocityUnits::rpm);
-    intake1.spin(directionType::fwd, 200,velocityUnits::rpm);
-    intake2.spin(directionType::fwd, 200,velocityUnits::rpm);
-    task::sleep(1000);
-    intake1.stop();
-    intake2.stop();
+    */
+    leftintake.spin(directionType::fwd, 200,velocityUnits::rpm);
+    rightintake.spin(directionType::fwd, 200,velocityUnits::rpm);
+    //task::sleep(1000);
+    //leftintake.stop();
+    //rightintake.stop();
+    /*
     liftmotor1.startRotateTo(100, rotationUnits::deg, 100,velocityUnits::rpm);
     liftmotor2.rotateTo(100, rotationUnits::deg, 100,velocityUnits::rpm);
+    */
+  }
+  else if (con.ButtonRight.pressing() ==1) {
+    leftintake.spin(directionType::rev, 200,velocityUnits::rpm);
+    rightintake.spin(directionType::rev, 200,velocityUnits::rpm);
+  }
+
+  else {
+    leftintake.stop();
+    rightintake.stop();
   }
 }
 
 void dispensecube () {
   liftmotor1.spin(directionType::fwd, 100,velocityUnits::rpm);
   liftmotor2.spin(directionType::fwd, 100,velocityUnits::rpm);
-  intake1.spin(directionType::rev, 200,velocityUnits::rpm);
-  intake2.spin(directionType::rev, 200,velocityUnits::rpm);
+  leftintake.spin(directionType::rev, 200,velocityUnits::rpm);
+  rightintake.spin(directionType::rev, 200,velocityUnits::rpm);
   
   if (con.ButtonRight.pressing() ==1) {
     liftmotor1.stop();
     liftmotor2.stop();
-    intake1.stop();
-    intake2.stop();
+    leftintake.stop();
+    rightintake.stop();
   }
 }
