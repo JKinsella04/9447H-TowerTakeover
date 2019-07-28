@@ -1,8 +1,10 @@
-#include "C:/Program Files (x86)/VEX Robotics/VEXcode/sdk/vexv5/gcc/include/stdint.h"
-#include "C:/Program Files (x86)/VEX Robotics/VEXcode/sdk/vexv5/gcc/include/sys/_stdint.h"
-#include "D:/Desktop/TowerTakeover-9947H/9447H-TowerTakeover/lvgl2019/src/lv_core/lv_obj.h"
-#include "D:/Desktop/TowerTakeover-9947H/9447H-TowerTakeover/lvgl2019/src/lv_objx/lv_label.h"
+#include <C:/Program Files (x86)/VEX Robotics/VEXcode/sdk/vexv5/gcc/include/stdint.h>
+#include <C:/Program Files (x86)/VEX Robotics/VEXcode/sdk/vexv5/gcc/include/sys/_stdint.h>
+#include <C:/Users/jackk/OneDrive/Desktop/9447H-TowerTakeover/9447H-TowerTakeover/lvgl2019/src/lv_core/lv_obj.h>
+#include "lv_objx/lv_label.h"
 #include <string>
+#include "C:/Users/jackk/OneDrive/Desktop/9447H-TowerTakeover/9447H-TowerTakeover/lvgl2019/src/lv_objx/lv_btn.h"
+#include "C:\Users\jackk\OneDrive\Desktop\9447H-TowerTakeover\9447H-TowerTakeover\lvgl2019\src\lv_core/lv_disp.h"
 lv_obj_t * myButton;
 lv_obj_t * myButtonLabel;
 lv_obj_t * myLabel;
@@ -11,8 +13,9 @@ lv_style_t myButtonStyleREL; //relesed style
 lv_style_t myButtonStylePR; //pressed style
 
 static lv_res_t btn_click_action(lv_obj_t * btn)
+
 {
-     uint8_t id = lv_obj_get_screen(btn); //id usefull when there are multiple buttons
+    id = lv_obj_get_screen(btn); //id usefull when there are multiple buttons
 
     if(id == 0)
     {
@@ -23,6 +26,7 @@ static lv_res_t btn_click_action(lv_obj_t * btn)
 
     return LV_RES_OK;
 }
+
 int main() {
       lv_style_copy(&myButtonStyleREL, &lv_style_plain);
     myButtonStyleREL.body.main_color = LV_COLOR_MAKE(150, 0, 0);
@@ -50,4 +54,4 @@ int main() {
     myLabel = lv_label_create(lv_scr_act(), NULL); //create label and puts it on the screen
     lv_label_set_text(myLabel, "Button has not been clicked yet"); //sets label text
     lv_obj_align(myLabel, NULL, LV_ALIGN_IN_LEFT_MID, 10, 0); //set the position to center
-}  }
+}  

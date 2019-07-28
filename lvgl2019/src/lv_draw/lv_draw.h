@@ -21,7 +21,7 @@ extern "C" {
 
 #include "../lv_core/lv_style.h"
 #include "../lv_misc/lv_txt.h"
-#include "D:\Desktop\TowerTakeover-9947H\9447H-TowerTakeover\lvgl2019\src\lv_draw/lv_img_decoder.h"
+#include "lv_img_decoder.h"
 
 /*********************
  *      DEFINES

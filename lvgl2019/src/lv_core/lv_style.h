@@ -14,7 +14,7 @@ extern "C" {
  *      INCLUDES
  *********************/
 #include <stdbool.h>
-#include "D:\Desktop\TowerTakeover-9947H\9447H-TowerTakeover\lvgl2019\src\lv_font/lv_font.h"
+#include "../lv_font/lv_font.h"
 #include "../lv_misc/lv_color.h"
 #include "../lv_misc/lv_area.h"
 #include "../lv_misc/lv_anim.h"
