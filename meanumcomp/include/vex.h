@@ -11,7 +11,7 @@
   motor class. The motor class is defined in a separate document that is made from installing vex code
   (A class in C++ is a user defined type or data structure declared
   with keyword class that has data and functions)
-  We create motors in the motor's class, brain in the brain's class, and controller in the controller's class.
+  We create objects in the motor's class to make motors, controllers in the controller's class and brains in the brain's class.
   From doing this we are creating an object in the motor class. When doing this we are able to name the object anything and it will take the 
   object and be able to run any function that is defined in the motor class.
   An example of this would be 
@@ -20,7 +20,7 @@
     frontleft.spin(fwd, front_left, velocityUnits::pct);
   Since we first created the object frontright in the motor class we were later able to make the object execute a function from the motor class
 
-  After creating the motor controller and brain we also create objects in all of the pwm ports on the cortex so we can just be able to plug in our LEDs in any port to make them light up
+  After creating the motor controller and brain we also create objects in all of the pwm ports on the cortex so we can plug our LEDs in any port to make them light up
   But on Port A for the 3 wire ports we do have to create an object in the limit switch class because we might use a limit switch for our intake.
 */
 
@@ -33,6 +33,8 @@ vex::motor liftmotor1 (vex::PORT11, vex::gearSetting::ratio18_1,false);
 vex::motor liftmotor2 (vex::PORT11, vex::gearSetting::ratio18_1,true);
 vex::motor leftintake (vex::PORT3, vex::gearSetting::ratio18_1,true);
 vex::motor rightintake (vex::PORT10, vex::gearSetting::ratio18_1,false);
+vex::motor tilter (vex::PORT1, vex::gearSetting::ratio36_1,false);
+
 vex::controller con(vex::controllerType::primary);
 
 vex::limit Limit = vex::limit(Brain.ThreeWirePort.A);
