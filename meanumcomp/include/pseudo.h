@@ -25,6 +25,58 @@ double speed = 75;
   - spin the motor(s) on whatever cube grabbing mechanism we use // Completed by function intake On 6/3/2019
   - 
 */
+int debug() { /* This is a Task that will start running before the match starts in the Pre-Auton phase 
+                 that will just be a debug screen that runs throughout the match in the background */
+    /* variables for temperatures for the motors in celsius 
+      These are just estimate right now will need tests to know what temps are "cool", "warm", and "hot"*/
+    double cool = 0; 
+    double warm = 50;
+    double hot = 70;
+    Brain.Screen.setPenWidth(3); /* Increases the size of the text to be easier to read */
+    while(true){
+      Brain.Screen.clearScreen();
+      /* These 3 if statements will compare the temperature of the tilter motor. if it is between 0 and 50 degrees Celsius it will be "cool" 
+          and will display the temp in green and create a green circle on the Cortex screen. Then if it is between 50 and 70 degrees it will be "warm"
+          and will display everything in orange. Then if it is over 70 degrees it will be "hot" and will display everything in red */
+      if(tilter.temperature(vex::temperatureUnits::celsius) >= cool) {
+        Brain.Screen.setPenColor(color::green);
+        Brain.Screen.printAt(2, 30, "Tilter Temp:%f",tilter.temperature(vex::temperatureUnits::celsius));
+        Brain.Screen.drawCircle(100, 100, 20, green);
+      }
+      if(tilter.temperature(vex::temperatureUnits::celsius) >= warm) {
+        Brain.Screen.setPenColor(color::orange);
+        Brain.Screen.printAt(2, 30, "Tilter Temp:%f",tilter.temperature(vex::temperatureUnits::celsius));
+        Brain.Screen.drawCircle(100, 100, 20, orange);
+      }
+      if(tilter.temperature(vex::temperatureUnits::celsius) >= hot) {
+        Brain.Screen.setPenColor(color::red);
+        Brain.Screen.printAt(2, 30, "Tilter Temp:%f",tilter.temperature(vex::temperatureUnits::celsius));
+        Brain.Screen.drawCircle(100, 100, 20, red);
+      }
+      Brain.Screen.render();
+      vex::task::sleep(20);
+
+    }
+  return 0;
+}
+
+void score() {
+  if(con.ButtonL1.pressing() ==1) {
+    /*
+    move the Tray Tilter to {ENCODER COUNT} to be perpindicular to the ground
+    while also slighty spinning the intake motor reverse to allow the cube at the bottom of the stack to be realeased
+    back up
+    */
+    tilter.startRotateTo(540, vex::rotationUnits::deg, speed, vex::velocityUnits::pct);
+    leftintake.spin(directionType::rev);
+    rightintake.spin(directionType::rev);
+    vex::task::sleep(500);
+    leftintake.stop();
+    rightintake.stop();
+    fourWheelDrive(-250, 50);
+    
+  }
+}
 
 void fourWheelDrive(
     double ecount, double speed) { // With this function we can use it to move
