@@ -1,3 +1,5 @@
+//#include "C:/Program Files (x86)/VEX Robotics/VEXcode/sdk/vexv5/include/vex_units.h"
+//#include "vex.h"
 using namespace vex;
 
 double speed = 75;
@@ -121,10 +123,8 @@ void turnLeft(double count, double speed) {
 void lift(double ecount,double speed) { // Very basic function where it will reset the encoders on
                     // the lift motors and then it will rotate the lift motors until it gets to the wanted position. This function will
                     // require the second lift motor to come to a stop before it will continue to the next line of code
-  liftmotor1.resetRotation();
-  liftmotor2.resetRotation();
-  liftmotor1.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
-  liftmotor2.rotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  traymotor.resetRotation();
+  traymotor.startRotateTo(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
 }
 
 void intake(double ecount,double speed) { // Very basic function where it will reset the encoders on
@@ -152,23 +152,20 @@ void intake(double ecount,double speed) { // Very basic function where it will r
 
 void liftup () {
   if (con.ButtonL1.pressing() ==1) {
-    liftmotor1.spin(directionType::fwd, 100,velocityUnits::rpm);
-    liftmotor1.spin(directionType::fwd, 100,velocityUnits::rpm);
+    traymotor.spin(directionType::fwd, 100,velocityUnits::rpm);
+    traymotor.spin(directionType::fwd, 100,velocityUnits::rpm);
   }
 
   else if (con.ButtonL2.pressing() ==1) {
-    liftmotor1.spin(directionType::rev, 100,velocityUnits::rpm);
-    liftmotor2.spin(directionType::rev, 100,velocityUnits::rpm);
+    traymotor.spin(directionType::rev, 100,velocityUnits::rpm);
     
     if(Limit.pressing() ==1) {
-      liftmotor1.stop();
-      liftmotor2.stop();
+      traymotor.stop();
     }
   }
   
   else  {
-    liftmotor1.stop();
-    liftmotor2.stop();
+    traymotor.stop();
   }
 
 }
@@ -176,8 +173,8 @@ void liftup () {
 void obtaincube () {
   if (con.ButtonLeft.pressing() ==1) {
     /*
-    liftmotor1.startRotateTo(0, rotationUnits::deg, 100,velocityUnits::rpm);
-    liftmotor2.startRotateTo(0, rotationUnits::deg, 100,velocityUnits::rpm);
+    traymotor.startRotateTo(0, rotationUnits::deg, 100,velocityUnits::rpm);
+    .startRotateTo(0, rotationUnits::deg, 100,velocityUnits::rpm);
     */
     leftintake.spin(directionType::fwd, 200,velocityUnits::rpm);
     rightintake.spin(directionType::fwd, 200,velocityUnits::rpm);
@@ -185,8 +182,8 @@ void obtaincube () {
     //leftintake.stop();
     //rightintake.stop();
     /*
-    liftmotor1.startRotateTo(100, rotationUnits::deg, 100,velocityUnits::rpm);
-    liftmotor2.rotateTo(100, rotationUnits::deg, 100,velocityUnits::rpm);
+    traymotor.startRotateTo(100, rotationUnits::deg, 100,velocityUnits::rpm);
+    .rotateTo(100, rotationUnits::deg, 100,velocityUnits::rpm);
     */
   }
   else if (con.ButtonRight.pressing() ==1) {
@@ -200,16 +197,24 @@ void obtaincube () {
   }
 }
 
-void dispensecube () {
-  liftmotor1.spin(directionType::fwd, 100,velocityUnits::rpm);
-  liftmotor2.spin(directionType::fwd, 100,velocityUnits::rpm);
-  leftintake.spin(directionType::rev, 200,velocityUnits::rpm);
-  rightintake.spin(directionType::rev, 200,velocityUnits::rpm);
-  
-  if (con.ButtonRight.pressing() ==1) {
-    liftmotor1.stop();
-    liftmotor2.stop();
-    leftintake.stop();
-    rightintake.stop();
+void scorecube () {
+  if(con.ButtonR2.pressing() ==1) {
+    traymotor.rotateFor(200, vex::rotationUnits::deg, 50,vex::velocityUnits::pct);
+    traymotor.startRotateFor(-200, vex::rotationUnits::deg, 50,vex::velocityUnits::pct);
+    fourWheelDrive(-200, 50);
   }
-}
+  }
+void moveTray () {
+
+     if(con.ButtonL1.pressing()==1 ) {
+      traymotor.spin(directionType::fwd, 50, velocityUnits::pct);
+     }
+     else if(con.ButtonL2.pressing()==1) {
+       traymotor.spin(directionType::rev, 50,velocityUnits::pct);
+     }
+    else{
+      traymotor.stop();
+    }
+     }
+  
+

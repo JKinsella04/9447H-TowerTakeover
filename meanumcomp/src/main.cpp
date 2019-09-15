@@ -1,8 +1,12 @@
+//#include "C:/Program Files (x86)/VEX Robotics/VEXcode/sdk/vexv5/include/vex_units.h"
+//#include "C:/Program Files (x86)/VEX Robotics/VEXcode/sdk/vexv5/include/vex_task.h"
 #include "README.h"
 #include "vex.h"
-#include "pseudo.h"
 #include <algorithm>
 #include <cmath>
+#include "startup.h"
+#include "score.h"
+//void score();
 
 using namespace vex;
 vex::competition Competition;
@@ -10,34 +14,37 @@ vex::competition Competition;
 void pre_auton(void) {
   // Since we are early in the season we do not have anything to do in the
   // pre-auton phase before the match starts so we have no code here yet.
+  traymotor.setStopping(vex::brakeType::hold);
+  traymotor2.setStopping(vex::brakeType::hold);
 }
 
 void autonomous(void) {
   // Since we are early in the season we do not have any autonomous programs
   // created to test since we do not have an exact robot design to base an
   // autonomous off of.
+  
 }
 
 void usercontrol(void) {
   while (true) {
     // Get the raw sums of the X and Y joystick axes
     double front_left =
-        (double)(con.Axis3.position(pct) +
+        (double)(con.Axis3.position(pct) -
                  con.Axis4.position(
                      pct)); // The raw value of the front left wheel based off
                             // the position of the Left Joystick
     double back_left =
-        (double)(con.Axis3.position(pct) -
+        (double)(con.Axis3.position(pct) +
                  con.Axis4.position(
                      pct)); // The raw value of the back left wheel based off
                             // the position of the Left Joystick
     double front_right =
-        (double)(con.Axis3.position(pct) -
+        (double)(con.Axis3.position(pct) +
                  con.Axis4.position(
                      pct)); // The raw value of the front right wheel based off
                             // the position of the Left Joystick
     double back_right =
-        (double)(con.Axis3.position(pct) +
+        (double)(con.Axis3.position(pct) -
                  con.Axis4.position(
                      pct)); // The raw value of the back right wheel based off
                             // the position of the Left Joystick
@@ -94,7 +101,42 @@ void usercontrol(void) {
     backright.spin(fwd, back_right, velocityUnits::pct);
     vex::task::sleep(20); // Sleep the task for a short amount of time to
                           // prevent wasted resources.
-    obtaincube();
+
+    if (con.ButtonL1.pressing() == 1) {
+      leftintake.spin(directionType::rev, 200, velocityUnits::rpm);
+      rightintake.spin(directionType::rev, 200, velocityUnits::rpm);
+    } else if (con.ButtonL2.pressing() == 1) {
+      leftintake.spin(directionType::fwd, 50, velocityUnits::rpm);
+      rightintake.spin(directionType::fwd, 50, velocityUnits::rpm);
+    } else {
+      leftintake.stop();
+      rightintake.stop();
+    }
+
+    if (con.ButtonR1.pressing() == 1) {
+      traymotor.spin(directionType::fwd, 50, velocityUnits::rpm);
+      traymotor2.spin(directionType::fwd, 50, velocityUnits::rpm);
+    } else if (con.ButtonR2.pressing() == 1) {
+      traymotor.spin(directionType::rev, 50, velocityUnits::rpm);
+      traymotor2.spin(directionType::rev, 50, velocityUnits::rpm);
+    } else {
+      traymotor.stop();
+      traymotor2.stop();
+    }
+
+    if(con.ButtonUp.pressing() ==1) {
+      startup();
+    }
+    if(con.ButtonLeft.pressing() ==1) {
+      score();
+    }
+    double traymtrC = traymotor.current(currentUnits::amp);
+  double traymtr2C = traymotor.current(currentUnits::amp);
+  con.Screen.print(traymtr2C);
+  Brain.Screen.printAt(1, 20, traymtr2C, "traymotor2");
+  vex::task::sleep(150);
+  //Brain.Screen.clearScreen();
+  con.Screen.clearScreen();
   }
 }
 
@@ -112,3 +154,15 @@ int main() {
                            // prevent wasted resources.
   }
 }
+/*
+void score() {
+  if (con.ButtonDown.pressing() == 1) {
+    traymotor.startRotateTo(200, vex::rotationUnits::deg, 100,
+                            vex::velocityUnits::pct);
+    traymotor2.startRotateTo(200, vex::rotationUnits::deg, 100,
+                            vex::velocityUnits::pct);
+    rightintake.spin(directionType::fwd, 75, velocityUnits::rpm);
+    leftintake.spin(directionType::fwd, 75, velocityUnits::rpm);
+  }
+}
+*/

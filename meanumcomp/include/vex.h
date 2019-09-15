@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+//#include "C:/Program Files (x86)/VEX Robotics/VEXcode/sdk/vexv5/include/vex_global.h"
+//#include "C:/Program Files (x86)/VEX Robotics/VEXcode/sdk/vexv5/include/vex_units.h"
 #include "v5.h"
 #include "v5_vcs.h"
 /*
@@ -25,14 +27,14 @@
 */
 
 vex::brain Brain;
-vex::motor frontright (vex::PORT19, vex::gearSetting::ratio18_1,true);
-vex::motor frontleft (vex::PORT12, vex::gearSetting::ratio18_1,false);
-vex::motor backright (vex::PORT20, vex::gearSetting::ratio18_1,true);
-vex::motor backleft (vex::PORT11, vex::gearSetting::ratio18_1,false);
-vex::motor liftmotor1 (vex::PORT11, vex::gearSetting::ratio18_1,false);
-vex::motor liftmotor2 (vex::PORT11, vex::gearSetting::ratio18_1,true);
-vex::motor leftintake (vex::PORT3, vex::gearSetting::ratio18_1,true);
-vex::motor rightintake (vex::PORT10, vex::gearSetting::ratio18_1,false);
+vex::motor frontright (vex::PORT3, vex::gearSetting::ratio18_1,true);
+vex::motor frontleft (vex::PORT2, vex::gearSetting::ratio18_1,false);
+vex::motor backright (vex::PORT16, vex::gearSetting::ratio18_1,true);
+vex::motor backleft (vex::PORT17, vex::gearSetting::ratio18_1,false);
+vex::motor traymotor (vex::PORT20, vex::gearSetting::ratio36_1,true);
+vex::motor traymotor2 (vex::PORT12, vex::gearSetting::ratio36_1, false);
+vex::motor leftintake (vex::PORT11, vex::gearSetting::ratio18_1,false);
+vex::motor rightintake (vex::PORT4, vex::gearSetting::ratio18_1,true);
 vex::controller con(vex::controllerType::primary);
 
 vex::limit Limit = vex::limit(Brain.ThreeWirePort.A);
