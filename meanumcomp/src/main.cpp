@@ -4,6 +4,7 @@
 #include "startup.h"
 #include "fourWheelDrive.h"
 #include "score.h"
+#include "moveIntake.h"
 
 using namespace vex;
 vex::competition Competition;
@@ -21,7 +22,6 @@ void autonomous(void) {
 
 void usercontrol(void) {
   while (true) {
-    // Get the raw sums of the X and Y joystick axes
         float max = 127.0;
         float left_percent = con.Axis3.value()/max;
         float right_percent = con.Axis2.value()/max;
@@ -58,7 +58,7 @@ void usercontrol(void) {
     }
 
     if(con.ButtonUp.pressing() ==1) {
-      startup();
+      moveIntake();
     }
     if(con.ButtonLeft.pressing() ==1) {
       score();

@@ -1,4 +1,3 @@
-//#include "pseudo.h"
 void score() {
   traymotor.startRotateFor(500,vex::rotationUnits::deg, 50,vex::velocityUnits::rpm);
   leftintake.spin(vex::directionType::fwd, 30, vex::velocityUnits::rpm);
