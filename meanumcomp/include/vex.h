@@ -32,7 +32,6 @@ vex::motor frontleft (vex::PORT2, vex::gearSetting::ratio18_1,false);
 vex::motor backright (vex::PORT16, vex::gearSetting::ratio18_1,true);
 vex::motor backleft (vex::PORT17, vex::gearSetting::ratio18_1,false);
 vex::motor traymotor (vex::PORT20, vex::gearSetting::ratio36_1,true);
-vex::motor traymotor2 (vex::PORT12, vex::gearSetting::ratio36_1, false);
 vex::motor leftintake (vex::PORT11, vex::gearSetting::ratio18_1,false);
 vex::motor rightintake (vex::PORT4, vex::gearSetting::ratio18_1,true);
 vex::controller con(vex::controllerType::primary);
