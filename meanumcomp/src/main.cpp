@@ -4,6 +4,8 @@
 #include "startup.h"
 #include "fourWheelDrive.h"
 #include "score.h"
+#include "trayTilt.h"
+#include "intakeSpin.h"
 
 using namespace vex;
 vex::competition Competition;
@@ -37,25 +39,9 @@ void usercontrol(void) {
         backleft.spin(fwd,left_power,vex::velocityUnits::pct);
         frontright.spin(fwd,right_power,vex::velocityUnits::pct);
         backright.spin(fwd,right_power,vex::velocityUnits::pct);
-
-    if (con.ButtonL1.pressing() == 1) {
-      leftintake.spin(directionType::rev, 200, velocityUnits::rpm);
-      rightintake.spin(directionType::rev, 200, velocityUnits::rpm);
-    } else if (con.ButtonL2.pressing() == 1) {
-      leftintake.spin(directionType::fwd, 50, velocityUnits::rpm);
-      rightintake.spin(directionType::fwd, 50, velocityUnits::rpm);
-    } else {
-      leftintake.stop();
-      rightintake.stop();
-    }
-
-    if (con.ButtonR1.pressing() == 1) {
-      traymotor.spin(directionType::fwd, 50, velocityUnits::rpm);
-    } else if (con.ButtonR2.pressing() == 1) {
-      traymotor.spin(directionType::rev, 50, velocityUnits::rpm);
-    } else {
-      traymotor.stop();
-    }
+    
+    trayTilt();
+    intakeSpin();
 
     if(con.ButtonUp.pressing() ==1) {
       startup();
