@@ -24,31 +24,41 @@ void autonomous(void) {
 void usercontrol(void) {
   while (true) {
     // Get the raw sums of the X and Y joystick axes
-        float max = 127.0;
-        float left_percent = con.Axis3.value()/max;
-        float right_percent = con.Axis2.value()/max;
+    float max = 127.0;
+    float left_percent = con.Axis3.value()/max;
+    float right_percent = con.Axis2.value()/max;
        
-        float left_new_percent = left_percent * left_percent * left_percent;
-        float right_new_percent = right_percent * right_percent * right_percent;
+    float left_new_percent = left_percent * left_percent * left_percent;
+    float right_new_percent = right_percent * right_percent * right_percent;
        
-        float motor_max = 85;
-        int left_power = left_new_percent * motor_max;
-        int right_power = right_new_percent * motor_max;
+    float motor_max = 85;
+    int left_power = left_new_percent * motor_max;
+    int right_power = right_new_percent * motor_max;
        
-        frontleft.spin(fwd,left_power,vex::velocityUnits::pct);
-        backleft.spin(fwd,left_power,vex::velocityUnits::pct);
-        frontright.spin(fwd,right_power,vex::velocityUnits::pct);
-        backright.spin(fwd,right_power,vex::velocityUnits::pct);
+    frontleft.spin(fwd,left_power,vex::velocityUnits::pct);
+    backleft.spin(fwd,left_power,vex::velocityUnits::pct);
+    frontright.spin(fwd,right_power,vex::velocityUnits::pct);
+    backright.spin(fwd,right_power,vex::velocityUnits::pct);
     
     trayTilt();
-    intakeSpin();
-
-    if(con.ButtonUp.pressing() ==1) {
-      startup();
+    
+    //intakeSpin();
+        if (con.ButtonUp.pressing() == 1) {
+      leftintake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+      rightintake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+    } else if (con.ButtonRight.pressing() == 1) {
+      leftintake.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
+      rightintake.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
+    } else {
+      leftintake.stop();
+      rightintake.stop();
     }
-    if(con.ButtonLeft.pressing() ==1) {
-      score();
-    }
+    //if(con.ButtonUp.pressing() ==1) {
+      //startup();
+    //}
+    //if(con.ButtonLeft.pressing() ==1) {
+     // score();
+   // }
   vex::task::sleep(150);
   //Brain.Screen.clearScreen();
   con.Screen.clearScreen();
