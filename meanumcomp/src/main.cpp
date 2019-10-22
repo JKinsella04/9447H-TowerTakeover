@@ -6,19 +6,22 @@
 #include "score.h"
 #include "trayTilt.h"
 #include "intakeSpin.h"
+#include "intake.h"
+#include "turnleft.h"
+#include "turnright.h"
+#include "intakeMove.h"
+#include "auton.h"
 
 using namespace vex;
 vex::competition Competition;
 
 void pre_auton(void) {
   traymotor.setStopping(vex::brakeType::hold);
+  armMotor.setStopping(vex::brakeType::hold);
 }
 
 void autonomous(void) {
-  // Since we are early in the season we do not have any autonomous programs
-  // created to test since we do not have an exact robot design to base an
-  // autonomous off of.
-  
+ auton();
 }
 
 void usercontrol(void) {
@@ -42,17 +45,10 @@ void usercontrol(void) {
     
     trayTilt();
     
-    //intakeSpin();
-        if (con.ButtonUp.pressing() == 1) {
-      leftintake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
-      rightintake.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
-    } else if (con.ButtonRight.pressing() == 1) {
-      leftintake.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
-      rightintake.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
-    } else {
-      leftintake.stop();
-      rightintake.stop();
-    }
+    intakeSpin();
+
+    intakeMove();
+
     //if(con.ButtonUp.pressing() ==1) {
       //startup();
     //}
