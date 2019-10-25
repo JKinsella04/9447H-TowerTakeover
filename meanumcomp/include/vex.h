@@ -34,7 +34,7 @@ vex::motor backleft (vex::PORT17, vex::gearSetting::ratio18_1,false);
 vex::motor traymotor (vex::PORT20, vex::gearSetting::ratio36_1,true);
 vex::motor leftintake (vex::PORT12, vex::gearSetting::ratio36_1,false);
 vex::motor rightintake (vex::PORT4, vex::gearSetting::ratio36_1,true);
-vex::motor armMotor (vex::PORT10, vex::gearSetting::ratio36_1,true);
+vex::motor armMotor (vex::PORT10, vex::gearSetting::ratio36_1,false);
 vex::controller con(vex::controllerType::primary);
 
 vex::limit Limit = vex::limit(Brain.ThreeWirePort.A);

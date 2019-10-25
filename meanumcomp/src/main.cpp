@@ -21,7 +21,15 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
- auton();
+//  auton();
+  fourWheelDrive(200,100);
+  fourWheelDrive(-300, 50);
+  vex::task::sleep(200);
+  intake(-600, 75);
+  armMotor.rotateTo(0,vex::rotationUnits::deg, 75,vex::velocityUnits::rpm);
+  vex::task::sleep(100);
+  armMotor.rotateFor(-50,vex::rotationUnits::deg, 75,vex::velocityUnits::rpm);
+  
 }
 
 void usercontrol(void) {
