@@ -26,22 +26,22 @@
   But on Port A for the 3 wire ports we do have to create an object in the limit switch class because we might use a limit switch for our intake.
 */
 
-vex::brain Brain;
-vex::motor frontright (vex::PORT3, vex::gearSetting::ratio18_1,true);
+ vex::brain Brain;
+vex::motor frontright (vex::PORT13, vex::gearSetting::ratio18_1,true);
 vex::motor frontleft (vex::PORT11, vex::gearSetting::ratio18_1,false);
-vex::motor backright (vex::PORT16, vex::gearSetting::ratio18_1,true);
+vex::motor backright (vex::PORT9, vex::gearSetting::ratio18_1,true);
 vex::motor backleft (vex::PORT17, vex::gearSetting::ratio18_1,false);
-vex::motor traymotor (vex::PORT20, vex::gearSetting::ratio36_1,true);
+vex::motor traymotor (vex::PORT16, vex::gearSetting::ratio36_1,false);
 vex::motor leftintake (vex::PORT12, vex::gearSetting::ratio36_1,false);
 vex::motor rightintake (vex::PORT4, vex::gearSetting::ratio36_1,true);
-vex::motor armMotor (vex::PORT10, vex::gearSetting::ratio36_1,false);
+vex::motor armMotor (vex::PORT10, vex::gearSetting::ratio36_1,true);
 vex::controller con(vex::controllerType::primary);
 
-vex::limit Limit = vex::limit(Brain.ThreeWirePort.A);
-vex::pwm_out Pwm_outb = vex::pwm_out(Brain.ThreeWirePort.B);
-vex::pwm_out Pwm_outc = vex::pwm_out(Brain.ThreeWirePort.C);
-vex::pwm_out Pwm_outd = vex::pwm_out(Brain.ThreeWirePort.D);
-vex::pwm_out Pwm_oute = vex::pwm_out(Brain.ThreeWirePort.E);
-vex::pwm_out Pwm_outf = vex::pwm_out(Brain.ThreeWirePort.F);
-vex::pwm_out Pwm_outg = vex::pwm_out(Brain.ThreeWirePort.G);
-vex::pwm_out Pwm_outh = vex::pwm_out(Brain.ThreeWirePort.H);
+// vex::limit Limit = vex::limit(Brain.ThreeWirePort.A);
+// vex::pwm_out Pwm_outb = vex::pwm_out(Brain.ThreeWirePort.B);
+// vex::pwm_out Pwm_outc = vex::pwm_out(Brain.ThreeWirePort.C);
+// vex::pwm_out Pwm_outd = vex::pwm_out(Brain.ThreeWirePort.D);
+// vex::pwm_out Pwm_oute = vex::pwm_out(Brain.ThreeWirePort.E);
+// vex::pwm_out Pwm_outf = vex::pwm_out(Brain.ThreeWirePort.F);
+// vex::pwm_out Pwm_outg = vex::pwm_out(Brain.ThreeWirePort.G);
+// vex::pwm_out Pwm_outh = vex::pwm_out(Brain.ThreeWirePort.H);
