@@ -2,18 +2,13 @@ using namespace vex;
 
 extern brain Brain;
 
-// VEXcode evices
+// VEXcode devices
+extern drivetrain Drivetrain;
 extern controller con;
-extern smartdrive Drivetrain;
 extern motor trayMotor;
 extern motor leftIntake;
 extern motor rightIntake;
 extern motor armMotor;
-extern motor leftMotorA;
-extern motor leftMotorB;
-extern motor rightMotorA;
-extern motor rightMotorB;
-extern inertial TurnGyroSmart;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Text.

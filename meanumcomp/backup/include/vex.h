@@ -45,13 +45,3 @@ vex::controller con(vex::controllerType::primary);
 // vex::pwm_out Pwm_outf = vex::pwm_out(Brain.ThreeWirePort.F);
 // vex::pwm_out Pwm_outg = vex::pwm_out(Brain.ThreeWirePort.G);
 // vex::pwm_out Pwm_outh = vex::pwm_out(Brain.ThreeWirePort.H);
-
-#include "robot-config.h"
-
-#define waitUntil(condition)                                                   \
-  do {                                                                         \
-    wait(5, msec);                                                             \
-  } while (!(condition))
-
-#define repeat(iterations)                                                     \
-  for (int iterator = 0; iterator < iterations; iterator++)

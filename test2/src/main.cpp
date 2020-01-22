@@ -1,4 +1,5 @@
 #include "vex.h"
+using namespace vex;
 
 void trayTilt();
 void intakeSpin();
@@ -18,43 +19,78 @@ competition Competition;
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-
+  TurnGyroSmart.calibrate();
+  armMotor.setBrake(hold);
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 }
 
 
 void autonomous(void) {
- // fourWheelDrive(200,100);
-  // fourWheelDrive(-100, 50);
-  // vex::task::sleep(200);
-  // intake(-600, 75);
-  // armMotor.rotateTo(0,vex::rotationUnits::deg, 75,vex::velocityUnits::rpm);
-  // vex::task::sleep(500);
-  // armMotor.rotateFor(-100,vex::rotationUnits::deg, 75,vex::velocityUnits::rpm);
+  ////////////////// 9 Point Begin ///////////////////////
   rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
   leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
-  driveForward(1200, 30); 
-  vex::task::sleep(200);
-  turnRight(450, 50);   
-  driveForward(1150, 60);
-  rightIntake.stop();
+    //Toggles the intakes on to pick up cubes
+  driveForward(40, 100);
+    //Goes forward picking up the preload and the 4 cubes in a row
+  turnLeft(45, 50);
+    //We turn left after picking up the cubes so we are at the right angle to backup behind the new row of cubes for us to pick up.
   leftIntake.stop();
-  turnLeft(50,75);
-  driveBackward(-25, 50);
-  rightIntake.startRotateFor(-200,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
-  leftIntake.rotateFor(-200,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
-  trayMotor.startRotateTo(3900,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
-  vex::task::sleep(2000);
-  vex::task::sleep(4000);
-  // fourWheelDrive(100, 50);
-  driveBackward(-300, 30);
-}
+  rightIntake.stop();
+    //we stop spinning the intakes before we begin backing up.
+  driveBackward(30, 100);
+    //We go backwards untill the robot is behind the next row of cubes for us to pickup
+  turnRight(45, 50);
+    //The robot turns right to face the cubes that we want to pick up
+  ////////////////// 5 Point Begin ///////////////////////
+  rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
+  leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
+    //Toggles the intakes on to pick up this row of cubes
+  driveForward(40, 70); 
+    //Goes forward so the intakes actually intake cubes
+  driveBackward(30, 100);
+    //Goes back so we can turn right to face the goal zone at a perfect 45 degree angle
+  turnRight(427, 50);
+    //Turns right to look towards the goal zone at a 45 degree angle
+  leftIntake.stop();
+  rightIntake.stop();
+    //We stop the intakes before going into the goal goal zones
+  vex::task::sleep(100);
+  driveForward(33, 100);
+  trayMotor.rotateTo(1700,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+  driveBackward(10, 50);
+    //We go forward into the goal zone then stack the 9 cubes and back up after bringing the tray perpindicular to the ground.
+  }
 
 
 void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
+  //   leftIntake.spin(directionType::fwd);
+  //   // double yawValue = TurnGyroSmart.heading();
+  //   if(TurnGyroSmart.rotation() >= 90){
+  //     // Brain.Screen.printAt(1,30,"yaw",TurnGyroSmart.heading());
+  //     leftIntake.stop();
+  //   }
+  //   else{
+  //     leftIntake.spin(directionType::fwd);
+  //   }
+    float max = 127.0;
+    float left_percent = con.Axis3.value()/max;
+    float right_percent = con.Axis2.value()/max;
+       
+    float left_new_percent = left_percent * left_percent * left_percent;
+    float right_new_percent = right_percent * right_percent * right_percent;
+       
+    float motor_max = 50;
+    int left_power = left_new_percent * motor_max;
+    int right_power = right_new_percent * motor_max;
+       
+    leftMotorA.spin(fwd,left_power,vex::velocityUnits::pct);
+    leftMotorB.spin(fwd,left_power,vex::velocityUnits::pct);
+    rightMotorA.spin(fwd,right_power,vex::velocityUnits::pct);
+    rightMotorB.spin(fwd,right_power,vex::velocityUnits::pct);
+  
     trayTilt();
     intakeSpin();
     armMove();
@@ -102,9 +138,9 @@ void intakeSpin(){
 
 void armMove(){
     if (con.ButtonUp.pressing() == 1) {
-      armMotor.spin(vex::directionType::rev, 200, vex::velocityUnits::rpm);
+      armMotor.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
     } else if (con.ButtonRight.pressing() == 1) {
-      armMotor.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
+      armMotor.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
     } else {
       armMotor.stop();
     }  
@@ -128,9 +164,25 @@ void intake(double ecount,double speed) { // Very basic function where it will r
 }
 
 void turnLeft(double ecount, double speed) {
-  Drivetrain.turnFor(turnType::left, ecount , rotationUnits::deg, speed, velocityUnits::rpm);
+  leftMotorA.resetRotation();
+  rightMotorA.resetRotation();
+  leftMotorB.resetRotation();
+  rightMotorB.resetRotation();
+
+  leftMotorA.startRotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+  rightMotorA.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+  leftMotorB.startRotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+  rightMotorB.rotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
 }
 
 void turnRight(double ecount, double speed) {
-  Drivetrain.turnFor(turnType::right, ecount, rotationUnits::deg, speed, velocityUnits::rpm);
+    leftMotorA.resetRotation();
+  rightMotorA.resetRotation();
+  leftMotorB.resetRotation();
+  rightMotorB.resetRotation();
+  
+  leftMotorA.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+  rightMotorA.startRotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+  leftMotorB.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+  rightMotorB.rotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
 }
