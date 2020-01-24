@@ -21,6 +21,7 @@ void pre_auton(void) {
   vexcodeInit();
   TurnGyroSmart.calibrate();
   armMotor.setBrake(hold);
+  trayMotor.setBrake(hold);
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 }
@@ -28,36 +29,37 @@ void pre_auton(void) {
 
 void autonomous(void) {
   ////////////////// 9 Point Begin ///////////////////////
-  rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
-  leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
-    //Toggles the intakes on to pick up cubes
-  driveForward(40, 100);
-    //Goes forward picking up the preload and the 4 cubes in a row
-  turnLeft(45, 50);
-    //We turn left after picking up the cubes so we are at the right angle to backup behind the new row of cubes for us to pick up.
-  leftIntake.stop();
-  rightIntake.stop();
-    //we stop spinning the intakes before we begin backing up.
-  driveBackward(30, 100);
-    //We go backwards untill the robot is behind the next row of cubes for us to pickup
-  turnRight(45, 50);
+  // rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
+  // leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
+  //   //Toggles the intakes on to pick up cubes
+  // driveForward(40, 100);
+  //   //Goes forward picking up the preload and the 4 cubes in a row
+  // turnLeft(45, 50);
+  //   //We turn left after picking up the cubes so we are at the right angle to backup behind the new row of cubes for us to pick up.
+  // leftIntake.stop();
+  // rightIntake.stop();
+  //   //we stop spinning the intakes before we begin backing up.
+  // driveBackward(30, 100);
+  //   //We go backwards untill the robot is behind the next row of cubes for us to pickup
+  // turnRight(45, 50);
     //The robot turns right to face the cubes that we want to pick up
   ////////////////// 5 Point Begin ///////////////////////
   rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
   leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
     //Toggles the intakes on to pick up this row of cubes
-  driveForward(40, 70); 
+  driveForward(40, 50); 
+  vex::task::sleep(100);
     //Goes forward so the intakes actually intake cubes
-  driveBackward(30, 100);
+  driveBackward(26, 100);
     //Goes back so we can turn right to face the goal zone at a perfect 45 degree angle
-  turnRight(427, 50);
+  turnRight(350, 50);
     //Turns right to look towards the goal zone at a 45 degree angle
   leftIntake.stop();
   rightIntake.stop();
     //We stop the intakes before going into the goal goal zones
   vex::task::sleep(100);
-  driveForward(33, 100);
-  trayMotor.rotateTo(1700,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+  driveForward(14.5, 100);
+  trayMotor.rotateTo(1400,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
   driveBackward(10, 50);
     //We go forward into the goal zone then stack the 9 cubes and back up after bringing the tray perpindicular to the ground.
   }
