@@ -4,12 +4,14 @@ using namespace vex;
 void trayTilt();
 void intakeSpin();
 void armMove();
+void smartTrayTilt();
 
 void driveForward(double ecount, double speed);
 void driveBackward(double ecount, double speed);
 void intake(double ecount, double speed);
 void turnLeft(double count, double speed);
 void turnRight(double count, double speed);
+void ddtrain(double ecount, double speed);
 
 using namespace vex;
 
@@ -61,9 +63,13 @@ void autonomous(void) {
   vex::task::sleep(100);
   driveForward(15.5, 100);
   // intake(-100, 100);
-  trayMotor.rotateTo(1500,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
-  // driveForward(2, 75);
+  trayMotor.rotateTo(1000,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+  vex::task::sleep(100);
+  ddtrain(100, 100);
+  vex::task::sleep(500);
   driveBackward(10, 50);
+  // driveForward(2, 75);
+  
   */
     //We go forward into the goal zone then stack the 9 cubes and back up after bringing the tray perpindicular to the ground.
   }
@@ -72,15 +78,6 @@ void autonomous(void) {
 void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
-  //   leftIntake.spin(directionType::fwd);
-  //   // double yawValue = TurnGyroSmart.heading();
-  //   if(TurnGyroSmart.rotation() >= 90){
-  //     // Brain.Screen.printAt(1,30,"yaw",TurnGyroSmart.heading());
-  //     leftIntake.stop();
-  //   }
-  //   else{
-  //     leftIntake.spin(directionType::fwd);
-  //   }
     float max = 127.0;
     float left_percent = con.Axis3.value()/max;
     float right_percent = con.Axis2.value()/max;
@@ -97,7 +94,8 @@ void usercontrol(void) {
     rightMotorA.spin(fwd,right_power,vex::velocityUnits::pct);
     rightMotorB.spin(fwd,right_power,vex::velocityUnits::pct);
   
-    trayTilt();
+    // trayTilt();
+    smartTrayTilt();
     intakeSpin();
     armMove();
     wait(20, msec); // Sleep the task for a short amount of time to
@@ -127,8 +125,40 @@ void trayTilt(){
     } else {
       trayMotor.stop();
     }
+    /*
+    if button pressed 
+      spin motor
+      if(position >= 1000(arbitrary #))
+        spin motor slow
+    if button pressed
+      spin backwards 
+    else 
+      stop
+    */
 }
 
+void smartTrayTilt(){
+    if (con.ButtonL1.pressing() == 1) {
+      trayMotor.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
+      if(trayMotor.rotation(rotationUnits::deg) >= 500) {
+        trayMotor.spin(vex::directionType::fwd, 25, vex::velocityUnits::rpm);
+      }
+    } else if (con.ButtonL2.pressing() == 1) {
+      trayMotor.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
+    } else {
+      trayMotor.stop();
+    }
+    /*
+    if button pressed 
+      spin motor
+      if(position >= 1000(arbitrary #))
+        spin motor slow
+    if button pressed
+      spin backwards 
+    else 
+      stop
+    */
+}
 void intakeSpin(){
     if (con.ButtonR1.pressing() == 1) {
       leftIntake.spin(vex::directionType::fwd, 100, vex::velocityUnits::pct);
@@ -160,11 +190,7 @@ void driveBackward(double ecount,double speed) {
   Drivetrain.driveFor(directionType::rev, ecount, distanceUnits::in, speed, velocityUnits::rpm);
 }
 
-void intake(double ecount,double speed) { // Very basic function where it will reset the encoders on
-                    // the intake motors and then it will rotate the intake motors until it gets to the wanted position. This
-                    // function will require the second lift motor to come to a stop before it will continue to the next line of code
-  leftIntake.resetRotation();
-  rightIntake.resetRotation();
+void intake(double ecount,double speed) { //spins both intakes for the specified encoder count. continues to next line of code after the right intake finishes spinning.
   leftIntake.startRotateFor(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
   rightIntake.rotateFor(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
 }
@@ -191,4 +217,11 @@ void turnRight(double ecount, double speed) {
   rightMotorA.startRotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
   leftMotorB.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
   rightMotorB.rotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+}
+
+void ddtrain(double ecount, double speed){ //go forward with and go to next line of code
+  leftMotorA.startRotateFor(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  leftMotorB.startRotateFor(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  rightMotorA.startRotateFor(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
+  rightMotorB.startRotateFor(ecount, vex::rotationUnits::deg, speed,vex::velocityUnits::pct);
 }
