@@ -31,46 +31,49 @@ void pre_auton(void) {
 
 void autonomous(void) {
   ////////////////// 9 Point Begin ///////////////////////
-  rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
-  leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
+  // rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
+  // leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
+  // vex::task::sleep(2000);
   //   //Toggles the intakes on to pick up cubes
-  driveForward(40, 100);
+  // driveForward(40, 50);
   //   //Goes forward picking up the preload and the 4 cubes in a row
-  turnLeft(45, 50);
+  // turnLeft(45, 50);
   //   //We turn left after picking up the cubes so we are at the right angle to backup behind the new row of cubes for us to pick up.
-  leftIntake.stop();
-  rightIntake.stop();
+  // leftIntake.stop();
+  // rightIntake.stop();
   //   //we stop spinning the intakes before we begin backing up.
   // driveBackward(30, 100);
   //   //We go backwards untill the robot is behind the next row of cubes for us to pickup
   // turnRight(45, 50);
     //The robot turns right to face the cubes that we want to pick up
   ////////////////// 5 Point Begin ///////////////////////
-  /*
+  //  /*
   rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
   leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
+  vex::task::sleep(2000);
     //Toggles the intakes on to pick up this row of cubes
-  driveForward(40, 50); 
+  driveForward(45, 50); 
   vex::task::sleep(100);
     //Goes forward so the intakes actually intake cubes
-  driveBackward(25, 100);
+  driveBackward(30, 100);
     //Goes back so we can turn right to face the goal zone at a perfect 45 degree angle
-  turnRight(350, 50); //Red 450 Blue 360
+  turnRight(345, 75); //Red 450 Blue 360
     //Turns right to look towards the goal zone at a 45 degree angle
   leftIntake.stop();
   rightIntake.stop();
     //We stop the intakes before going into the goal goal zones
   vex::task::sleep(100);
-  driveForward(15.5, 100);
+  driveForward(13, 100);
   // intake(-100, 100);
-  trayMotor.rotateTo(1000,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
-  vex::task::sleep(100);
-  ddtrain(100, 100);
-  vex::task::sleep(500);
+  // */
+  trayMotor.rotateTo(600,vex::rotationUnits::deg, 90,vex::velocityUnits::rpm);
+  // vex::task::sleep(100);
+  // ddtrain(100, 100);
+  // vex::task::sleep(500);
   driveBackward(10, 50);
   // driveForward(2, 75);
   
-  */
+  /**/
     //We go forward into the goal zone then stack the 9 cubes and back up after bringing the tray perpindicular to the ground.
   }
 
@@ -140,8 +143,8 @@ void trayTilt(){
 void smartTrayTilt(){
     if (con.ButtonL1.pressing() == 1) {
       trayMotor.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
-      if(trayMotor.rotation(rotationUnits::deg) >= 500) {
-        trayMotor.spin(vex::directionType::fwd, 25, vex::velocityUnits::rpm);
+      if(trayMotor.rotation(rotationUnits::deg) >= 200) {
+        trayMotor.spin(vex::directionType::fwd, 20, vex::velocityUnits::rpm);
       }
     } else if (con.ButtonL2.pressing() == 1) {
       trayMotor.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
