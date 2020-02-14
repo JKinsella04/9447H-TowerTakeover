@@ -1,7 +1,6 @@
 #include "vex.h"
 using namespace vex;
 
-void trayTilt();
 void intakeSpin();
 void armMove();
 void smartTrayTilt();
@@ -24,6 +23,8 @@ void pre_auton(void) {
   TurnGyroSmart.calibrate();
   armMotor.setBrake(hold);
   trayMotor.setBrake(hold);
+  leftIntake.setBrake(hold);
+  rightIntake.setBrake(hold);
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 }
@@ -50,7 +51,7 @@ void autonomous(void) {
   //  /*
   rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
   leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
-  vex::task::sleep(2000);
+  // vex::task::sleep(2000);
     //Toggles the intakes on to pick up this row of cubes
   driveForward(45, 50); 
   vex::task::sleep(100);
@@ -63,10 +64,12 @@ void autonomous(void) {
   rightIntake.stop();
     //We stop the intakes before going into the goal goal zones
   vex::task::sleep(100);
-  driveForward(13, 100);
-  // intake(-100, 100);
+  intake(-400, 100);
+  trayMotor.startRotateTo(1100,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+  driveForward(11, 100);
+  vex::task::sleep(1500);
   // */
-  trayMotor.rotateTo(600,vex::rotationUnits::deg, 90,vex::velocityUnits::rpm);
+  
   // vex::task::sleep(100);
   // ddtrain(100, 100);
   // vex::task::sleep(500);
@@ -97,7 +100,7 @@ void usercontrol(void) {
     rightMotorA.spin(fwd,right_power,vex::velocityUnits::pct);
     rightMotorB.spin(fwd,right_power,vex::velocityUnits::pct);
   
-    // trayTilt();
+  
     smartTrayTilt();
     intakeSpin();
     armMove();
@@ -120,34 +123,14 @@ int main() {
   }
 }
 
-void trayTilt(){
-    if (con.ButtonL1.pressing() == 1) {
-      trayMotor.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
-    } else if (con.ButtonL2.pressing() == 1) {
-      trayMotor.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
-    } else {
-      trayMotor.stop();
-    }
-    /*
-    if button pressed 
-      spin motor
-      if(position >= 1000(arbitrary #))
-        spin motor slow
-    if button pressed
-      spin backwards 
-    else 
-      stop
-    */
-}
-
 void smartTrayTilt(){
     if (con.ButtonL1.pressing() == 1) {
-      trayMotor.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
-      if(trayMotor.rotation(rotationUnits::deg) >= 200) {
-        trayMotor.spin(vex::directionType::fwd, 20, vex::velocityUnits::rpm);
+      trayMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
+      if(trayMotor.rotation(rotationUnits::deg) >= 300) {
+        trayMotor.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
       }
     } else if (con.ButtonL2.pressing() == 1) {
-      trayMotor.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
+      trayMotor.spin(vex::directionType::rev, 80, vex::velocityUnits::rpm);
     } else {
       trayMotor.stop();
     }

@@ -19,10 +19,10 @@ motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
 
 inertial TurnGyroSmart = inertial(PORT8);
 smartdrive Drivetrain= smartdrive(LeftDriveSmart, RightDriveSmart, TurnGyroSmart,319.19, 320, 165, mm, 1);
-motor trayMotor = motor(PORT16, ratio36_1, true);
+motor trayMotor = motor(PORT16, ratio36_1, false);
 motor leftIntake = motor(PORT12, ratio18_1, false);
 motor rightIntake = motor(PORT4, ratio18_1, true);
-motor armMotor = motor(PORT20, ratio18_1, true);
+motor armMotor = motor(PORT20, ratio18_1, false);
 // VEXcode generated functions
 // define variable for remote controller enable/disable
 bool RemoteControlCodeEnabled = true;
