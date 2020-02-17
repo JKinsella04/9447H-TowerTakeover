@@ -91,7 +91,7 @@ void usercontrol(void) {
     float left_new_percent = left_percent * left_percent * left_percent;
     float right_new_percent = right_percent * right_percent * right_percent;
        
-    float motor_max = 50;
+    float motor_max = 100;
     int left_power = left_new_percent * motor_max;
     int right_power = right_new_percent * motor_max;
        
@@ -125,9 +125,9 @@ int main() {
 
 void smartTrayTilt(){
     if (con.ButtonL1.pressing() == 1) {
-      trayMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
+      trayMotor.spin(vex::directionType::fwd, 10, vex::velocityUnits::rpm);
       if(trayMotor.rotation(rotationUnits::deg) >= 300) {
-        trayMotor.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
+        trayMotor.spin(vex::directionType::fwd, 10, vex::velocityUnits::rpm);
       }
     } else if (con.ButtonL2.pressing() == 1) {
       trayMotor.spin(vex::directionType::rev, 80, vex::velocityUnits::rpm);
@@ -160,9 +160,9 @@ void intakeSpin(){
 
 void armMove(){
     if (con.ButtonUp.pressing() == 1) {
-      armMotor.spin(vex::directionType::fwd, 200, vex::velocityUnits::rpm);
+      armMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
     } else if (con.ButtonRight.pressing() == 1) {
-      armMotor.spin(vex::directionType::rev, 50, vex::velocityUnits::rpm);
+      armMotor.spin(vex::directionType::rev, 100, vex::velocityUnits::rpm);
     } else {
       armMotor.stop();
     }  
