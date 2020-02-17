@@ -1,9 +1,13 @@
 #include "vex.h"
 using namespace vex;
 
+float motor_max = 100;
+
 void intakeSpin();
 void armMove();
 void smartTrayTilt();
+void brakes();
+void resetBrakes();
 
 void driveForward(double ecount, double speed);
 void driveBackward(double ecount, double speed);
@@ -91,7 +95,7 @@ void usercontrol(void) {
     float left_new_percent = left_percent * left_percent * left_percent;
     float right_new_percent = right_percent * right_percent * right_percent;
        
-    float motor_max = 100;
+    // float motor_max = 100;
     int left_power = left_new_percent * motor_max;
     int right_power = right_new_percent * motor_max;
        
@@ -123,6 +127,29 @@ int main() {
   }
 }
 
+int cubes() {
+  if (LineSensor1.value(analogUnits::mV) == 25){
+      motor_max = 75;
+  }
+  return 0;
+}
+void brakes(){
+  leftIntake.setBrake(coast);
+  rightIntake.setBrake(coast);
+  leftMotorA.setBrake(hold);
+  leftMotorB.setBrake(hold);
+  rightMotorA.setBrake(hold);
+  rightMotorB.setBrake(hold);
+}
+void resetBrakes(){
+  leftIntake.setBrake(hold);
+  rightIntake.setBrake(hold);
+  leftMotorA.setBrake(coast);
+  leftMotorB.setBrake(coast);
+  rightMotorA.setBrake(coast);
+  rightMotorB.setBrake(coast);
+}
+
 void smartTrayTilt(){
     if (con.ButtonL1.pressing() == 1) {
       trayMotor.spin(vex::directionType::fwd, 10, vex::velocityUnits::rpm);
@@ -133,6 +160,7 @@ void smartTrayTilt(){
       trayMotor.spin(vex::directionType::rev, 80, vex::velocityUnits::rpm);
     } else {
       trayMotor.stop();
+      resetBrakes();
     }
     /*
     if button pressed 
