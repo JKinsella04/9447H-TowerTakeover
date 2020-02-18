@@ -141,8 +141,8 @@ task cubes() {
   return 0;
 }
 */
-
 task controlType() {
+  while(1){
   if(con.ButtonA.pressing() == 1){
     arm = 1;
     con.Screen.clearScreen();
@@ -154,6 +154,7 @@ task controlType() {
     con.Screen.print("Smooth Adjustment");
   }
   return 0;
+  }
 }
 
 void brakes(){
