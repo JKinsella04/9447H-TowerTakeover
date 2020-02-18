@@ -7,7 +7,7 @@ double speed[5] = {10,15,20,35,50};
 
 void intakeSpin();
 void armMove();
-void smartTrayTilt();
+// void smartTrayTilt();
 void arrayTilt();
 void brakes();
 void resetBrakes();
@@ -19,7 +19,8 @@ void turnLeft(double count, double speed);
 void turnRight(double count, double speed);
 void ddtrain(double ecount, double speed);
 
-int controlType();
+task controlType();
+// task cubes();
 
 using namespace vex;
 
@@ -108,6 +109,7 @@ void usercontrol(void) {
     rightMotorB.spin(fwd,right_power,vex::velocityUnits::pct);
   
     controlType();
+    // cubes();
     // smartTrayTilt();
     arrayTilt();
     intakeSpin();
@@ -132,7 +134,7 @@ int main() {
 }
 
 /*
-int cubes() {
+task cubes() {
   if (LineSensor1.value(analogUnits::mV) == 25){
       motor_max = 75;
   }
@@ -140,7 +142,7 @@ int cubes() {
 }
 */
 
-int controlType() {
+task controlType() {
   if(con.ButtonA.pressing() == 1){
     arm = 1;
     con.Screen.clearScreen();
