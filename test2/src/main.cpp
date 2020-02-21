@@ -7,8 +7,8 @@ double speed[5] = {10,15,20,35,50};
 
 void intakeSpin();
 void armMove();
-// void smartTrayTilt();
-void arrayTilt();
+void smartTrayTilt();
+// void arrayTilt();
 void brakes();
 void resetBrakes();
 
@@ -110,8 +110,8 @@ void usercontrol(void) {
   
     controlType();
     // cubes();
-    // smartTrayTilt();
-    arrayTilt();
+    smartTrayTilt();
+    // arrayTilt();
     intakeSpin();
     armMove();
     wait(20, msec); // Sleep the task for a short amount of time to
@@ -175,13 +175,13 @@ void resetBrakes(){
 }
 
 void smartTrayTilt(){
-    if (con.ButtonLeft.pressing() == 1) {
+    if (con.ButtonL1.pressing() == 1) {
       brakes();
-      trayMotor.spin(vex::directionType::fwd, 10, vex::velocityUnits::rpm);
-      if(trayMotor.rotation(rotationUnits::deg) >= 300) {
-        trayMotor.spin(vex::directionType::fwd, 10, vex::velocityUnits::rpm);
+      trayMotor.spin(vex::directionType::fwd, 80, vex::velocityUnits::rpm);
+      if(trayMotor.rotation(rotationUnits::deg) >= 500) {
+        trayMotor.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
       }
-    } else if (con.ButtonRight.pressing() == 1) {
+    } else if (con.ButtonL2.pressing() == 1) {
       trayMotor.spin(vex::directionType::rev, 80, vex::velocityUnits::rpm);
     } else {
       trayMotor.stop();
@@ -209,8 +209,8 @@ void intakeSpin(){
       leftIntake.spin(vex::directionType::fwd, 100, vex::velocityUnits::pct);
       rightIntake.spin(vex::directionType::fwd, 100, vex::velocityUnits::pct);
     } else if (con.ButtonR2.pressing() == 1) {
-      leftIntake.spin(vex::directionType::rev, 50, vex::velocityUnits::pct);
-      rightIntake.spin(vex::directionType::rev, 50, vex::velocityUnits::pct);
+      leftIntake.spin(vex::directionType::rev, 100, vex::velocityUnits::pct);
+      rightIntake.spin(vex::directionType::rev, 100, vex::velocityUnits::pct);
     } else {
       leftIntake.stop();
       rightIntake.stop();
@@ -219,9 +219,9 @@ void intakeSpin(){
 
 void armMove(){
   if(arm == 0) {
-    if (con.ButtonL1.pressing() == 1) {
+    if (con.ButtonUp.pressing() == 1) {
       armMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
-    } else if (con.ButtonL2.pressing() == 1) {
+    } else if (con.ButtonRight.pressing() == 1) {
       armMotor.spin(vex::directionType::rev, 100, vex::velocityUnits::rpm);
       if (armMotor.position(rotationUnits::deg) <= 200) {
         armMotor.stop();

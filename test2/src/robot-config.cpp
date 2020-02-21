@@ -9,12 +9,12 @@ brain  Brain;
 
 // VEXcode device constructors
 controller con = controller(primary);
-motor leftMotorA = motor(PORT11, ratio18_1, false);
-motor leftMotorB = motor(PORT17, ratio18_1, false);
+motor leftMotorA = motor(PORT21, ratio18_1, false);
+motor leftMotorB = motor(PORT9, ratio18_1, false);
 motor_group LeftDriveSmart = motor_group(leftMotorA, leftMotorB);
 
 motor rightMotorA = motor(PORT13, ratio18_1, true); 
-motor rightMotorB = motor(PORT9, ratio18_1, true); 
+motor rightMotorB = motor(PORT6, ratio18_1, true); 
 motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
 
 inertial TurnGyroSmart = inertial(PORT8);
