@@ -23,6 +23,8 @@ motor trayMotor = motor(PORT16, ratio36_1, false);
 motor leftIntake = motor(PORT12, ratio18_1, false);
 motor rightIntake = motor(PORT4, ratio18_1, true);
 motor armMotor = motor(PORT20, ratio36_1, false);
+line lineSensor1 = line(Brain.ThreeWirePort.A);
+line lineSensor2 = line(Brain.ThreeWirePort.B);
 // VEXcode generated functions
 // define variable for remote controller enable/disable
 bool RemoteControlCodeEnabled = true;

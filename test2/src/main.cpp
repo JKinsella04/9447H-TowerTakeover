@@ -19,8 +19,9 @@ void turnLeft(double count, double speed);
 void turnRight(double count, double speed);
 void ddtrain(double ecount, double speed);
 
-task controlType();
-// task cubes();
+task ControlType();
+task Cubes();
+task CTimer();
 
 using namespace vex;
 
@@ -108,8 +109,9 @@ void usercontrol(void) {
     rightMotorA.spin(fwd,right_power,vex::velocityUnits::pct);
     rightMotorB.spin(fwd,right_power,vex::velocityUnits::pct);
   
-    controlType();
-    // cubes();
+    ControlType();
+    Cubes();
+    CTimer();
     smartTrayTilt();
     // arrayTilt();
     intakeSpin();
@@ -133,15 +135,15 @@ int main() {
   }
 }
 
-/*
-task cubes() {
-  if (LineSensor1.value(analogUnits::mV) == 25){
+
+task Cubes() {
+  if (lineSensor1.value(analogUnits::mV) == 25){
       motor_max = 75;
   }
   return 0;
 }
-*/
-task controlType() {
+
+task ControlType() {
   while(1){
   if(con.ButtonA.pressing() == 1){
     arm = 1;
@@ -155,6 +157,26 @@ task controlType() {
   }
   return 0;
   }
+}
+
+task CTimer() {
+  Brain.resetTimer();
+  con.Screen.setCursor(1, 1);
+  while(1) {
+    double time = Brain.timer(timeUnits::sec);
+    con.Screen.print(time);
+    if (time >= 100000){
+      leftIntake.setBrake(coast);
+      rightIntake.setBrake(coast);
+      leftMotorA.setBrake(coast);
+      leftMotorB.setBrake(coast);
+      rightMotorA.setBrake(coast);
+      rightMotorB.setBrake(coast);
+      armMotor.setBrake(coast);
+      trayMotor.setBrake(coast);
+    }
+  }
+  return 0;
 }
 
 void brakes(){
@@ -223,7 +245,7 @@ void armMove(){
       armMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
     } else if (con.ButtonRight.pressing() == 1) {
       armMotor.spin(vex::directionType::rev, 100, vex::velocityUnits::rpm);
-      if (armMotor.position(rotationUnits::deg) <= 200) {
+      if (armMotor.position(rotationUnits::deg) <= 50) {
         armMotor.stop();
       }
     } else {
@@ -232,13 +254,13 @@ void armMove(){
   }
   else if (arm == 1) {
     if (con.ButtonL1.pressing() == 1) {
-      armMotor.rotateFor(500, vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+      armMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
     } else if (con.ButtonL2.pressing() == 1) {
-      armMotor.rotateFor(350, vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+      armMotor.spin(vex::directionType::rev, 100, vex::velocityUnits::rpm);
     } else {
       armMotor.stop();
     } 
-  } 
+  }
 }
 
 void driveForward(double ecount,double speed) {

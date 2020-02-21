@@ -14,6 +14,8 @@ extern motor leftMotorB;
 extern motor rightMotorA;
 extern motor rightMotorB;
 extern inertial TurnGyroSmart;
+extern line lineSensor1;
+extern line lineSensor2;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Text.
