@@ -109,9 +109,9 @@ void usercontrol(void) {
     rightMotorA.spin(fwd,right_power,vex::velocityUnits::pct);
     rightMotorB.spin(fwd,right_power,vex::velocityUnits::pct);
   
-    ControlType();
-    Cubes();
-    CTimer();
+    // ControlType();
+    // Cubes();
+    // CTimer();
     smartTrayTilt();
     // arrayTilt();
     intakeSpin();
@@ -245,9 +245,6 @@ void armMove(){
       armMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
     } else if (con.ButtonRight.pressing() == 1) {
       armMotor.spin(vex::directionType::rev, 100, vex::velocityUnits::rpm);
-      if (armMotor.position(rotationUnits::deg) <= 50) {
-        armMotor.stop();
-      }
     } else {
       armMotor.stop();
     } 
