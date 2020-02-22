@@ -9,7 +9,6 @@ void armMove();
 void smartTrayTilt();
 void brakes();
 void resetBrakes();
-void pStack();
 
 void driveForward(double ecount, double speed);
 void driveBackward(double ecount, double speed);
@@ -24,7 +23,6 @@ task CTimer();
 
 using namespace vex;
 
-// A global instance of competition
 competition Competition;
 
 void pre_auton(void) {
@@ -107,15 +105,14 @@ void usercontrol(void) {
     leftMotorB.spin(fwd,left_power,vex::velocityUnits::pct);
     rightMotorA.spin(fwd,right_power,vex::velocityUnits::pct);
     rightMotorB.spin(fwd,right_power,vex::velocityUnits::pct);
-  
-    pStack();
-    // smartTrayTilt();
+
     intakeSpin();
     armMove();
-
+    
     ControlType();
     Cubes();
     CTimer();
+    smartTrayTilt();
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
@@ -197,22 +194,7 @@ void resetBrakes(){
 }
 
 void smartTrayTilt(){
-  if (arm == 0) {
-    if (con.ButtonL1.pressing() == 1) {
-      brakes();
-      trayMotor.spin(vex::directionType::fwd, 80, vex::velocityUnits::rpm);
-      if(trayMotor.rotation(rotationUnits::deg) >= 500) {
-        trayMotor.spin(vex::directionType::fwd, 50, vex::velocityUnits::rpm);
-      }
-    } else if (con.ButtonL2.pressing() == 1) {
-      trayMotor.spin(vex::directionType::rev, 80, vex::velocityUnits::rpm);
-    } else {
-      trayMotor.stop();
-      resetBrakes();
-    }
-  }
-  if (arm == 1) {
-    if (con.ButtonUp.pressing() == 1) {
+    if (con.ButtonLeft.pressing() == 1) {
       brakes();
       trayMotor.spin(vex::directionType::fwd, 80, vex::velocityUnits::rpm);
       if(trayMotor.rotation(rotationUnits::deg) >= 500) {
@@ -224,21 +206,8 @@ void smartTrayTilt(){
       trayMotor.stop();
       resetBrakes();
     }
-  }
 }
 
-void pStack() {
-  double kP = 1.5;
-  if (con.ButtonL1.pressing() ==1) {
-    double error = 1000 - trayMotor.position(rotationUnits::deg);
-    double Tpower = error*kP;
-    trayMotor.spin(vex::directionType::fwd, Tpower,vex::velocityUnits::rpm);
-  }else if(con.ButtonL2.pressing() ==1) {
-     double backerror = 0 - trayMotor.position(rotationUnits::deg);
-     double Bpower = backerror*kP;
-    trayMotor.spin(vex::directionType::fwd, Bpower,vex::velocityUnits::rpm);
-  }
-}
 void intakeSpin(){
     if (con.ButtonR1.pressing() == 1) {
       leftIntake.spin(vex::directionType::fwd, 100, vex::velocityUnits::pct);
@@ -254,9 +223,9 @@ void intakeSpin(){
 
 void armMove(){
   if(arm == 0) {
-    if (con.ButtonUp.pressing() == 1) {
+    if (con.ButtonL1.pressing() == 1) {
       armMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
-    } else if (con.ButtonRight.pressing() == 1) {
+    } else if (con.ButtonL2.pressing() == 1) {
       armMotor.spin(vex::directionType::rev, 100, vex::velocityUnits::rpm);
     } else {
       armMotor.stop();
@@ -264,9 +233,9 @@ void armMove(){
   }
   else if (arm == 1) {
     if (con.ButtonL1.pressing() == 1) {
-      armMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
+      armMotor.rotateTo(500, vex::rotationUnits::deg, 100,vex::velocityUnits::pct);
     } else if (con.ButtonL2.pressing() == 1) {
-      armMotor.spin(vex::directionType::rev, 100, vex::velocityUnits::rpm);
+      armMotor.rotateTo(200, vex::rotationUnits::deg, 100,vex::velocityUnits::pct);
     } else {
       armMotor.stop();
     } 
