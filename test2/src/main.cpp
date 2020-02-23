@@ -285,6 +285,11 @@ void intakeSpin(){
 }
 
 void armMove(){
+  if (con.ButtonL1.pressing() ==1 && con.ButtonL2.pressing()==1) {
+    armMotor.startRotateTo(200, vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+    vex::task::sleep(100);
+    intake(-150,100);
+  }
   if(arm == 0) {
     if (con.ButtonUp.pressing() == 1) {
       armMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
