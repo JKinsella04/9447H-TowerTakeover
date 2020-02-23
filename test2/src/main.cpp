@@ -2,8 +2,8 @@
 using namespace vex;
 
 float motor_max = 100;
-bool arm = 0;
-int   autonomousSelection = -1;
+bool arm = -1;
+int   autonomousSelection = 7;
 
 void intakeSpin();
 void armMove();
@@ -40,6 +40,27 @@ void pre_auton(void) {
   trayMotor.setBrake(hold);
   leftIntake.setBrake(hold);
   rightIntake.setBrake(hold);
+  if(autonomousSelection == 0) { //Red Unprotected 
+    con.Screen.clearLine(3);
+    con.Screen.setCursor(3, 7);
+    con.Screen.print("Red Unprot");
+  } if(autonomousSelection == 4) { //Red Protetected
+    con.Screen.clearLine(3);
+    con.Screen.setCursor(3, 8);
+    con.Screen.print("Red Prot");
+  } if(autonomousSelection == 3) { //Blue Unprotected
+    con.Screen.clearLine(3);
+    con.Screen.setCursor(3, 6);
+    con.Screen.print("Blue Unprot");
+  } if(autonomousSelection == 7) { //Blue Protected
+    con.Screen.clearLine(3);
+    con.Screen.setCursor(3, 8);
+    con.Screen.print("Blue Prot");
+  } if(autonomousSelection == -1) { //None Selected
+    con.Screen.clearLine(3);
+    con.Screen.setCursor(3, 7);
+    con.Screen.print("No Auton");
+  }
 }
 
 
@@ -109,7 +130,10 @@ if(autonomousSelection == 7) { //Blue Protected
 
 void usercontrol(void) {
   // User control code here, inside the loop
+  Brain.resetTimer();
+  con.Screen.clearScreen();
   while (1) {
+     
     float max = 127.0;
     float left_percent = con.Axis3.value()/max;
     float right_percent = con.Axis2.value()/max;
@@ -129,13 +153,10 @@ void usercontrol(void) {
     pStack();
     // smartTrayTilt();
     intakeSpin();
-    armMove();
-  if( autonomousSelection == 0 ){
-    leftIntake.spin(directionType::fwd);
-  }
+    armMove(); 
     ControlType();
     Cubes();
-    // CTimer();
+    CTimer();
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
@@ -164,9 +185,9 @@ int main() {
     displayButtonControls( 0, false );
   // Prevent main from exiting with an infinite loop.
   while (true) {
-    Brain.Screen.printAt( 150,  125, "  9447H  " );
-    Brain.Screen.printAt(175, 40, "UnProtected");
-    Brain.Screen.printAt(176, 160, "Protected");
+    Brain.Screen.printAt( 177,  125, "  9447H  " );
+    Brain.Screen.printAt(172, 90, "UnProtected");
+    Brain.Screen.printAt(178, 160, "Protected");
     wait(100, msec);
   }
 }
@@ -189,12 +210,14 @@ task ControlType() {
   while(1){
   if(con.ButtonA.pressing() == 1){
     arm = 1;
-    con.Screen.clearScreen();
+    con.Screen.clearLine(2);
+    con.Screen.setCursor(2, 10);
     con.Screen.print("Arm");
   }
   else if (con.ButtonX.pressing() == 1) {
     arm = 0;
-    con.Screen.clearScreen();
+    con.Screen.clearLine(2);
+    con.Screen.setCursor(2, 10);
     con.Screen.print("Tray");
   }
   return 0;
@@ -202,23 +225,25 @@ task ControlType() {
 }
 
 task CTimer() {
-  Brain.resetTimer();
-  con.Screen.setCursor(1, 1);
-  while(1) {
-    double time = Brain.timer(timeUnits::sec);
-    con.Screen.print(time);
-    if (time >= 100000){
-      leftIntake.setBrake(coast);
-      rightIntake.setBrake(coast);
-      leftMotorA.setBrake(coast);
-      leftMotorB.setBrake(coast);
-      rightMotorA.setBrake(coast);
-      rightMotorB.setBrake(coast);
-      armMotor.setBrake(coast);
-      trayMotor.setBrake(coast);
-    }
-  }
+  while(1){
+con.Screen.clearLine(1);
+con.Screen.setCursor(1, 7);
+con.Screen.print("Time Left %.4f", 105 - Brain.timer(timeUnits::sec));
+if(Brain.timer(timeUnits::sec) >= 100){
+  leftIntake.setBrake(coast);
+  rightIntake.setBrake(coast);
+  leftMotorA.setBrake(coast);
+  leftMotorB.setBrake(coast);
+  rightMotorA.setBrake(coast);
+  rightMotorB.setBrake(coast);
+  armMotor.setBrake(coast);
+  trayMotor.setBrake(coast);
+  con.Screen.setCursor(2, 7);
+  con.Screen.print("5 Sec left!");
+}
+vex::task::sleep(25);
   return 0;
+  }
 }
 
 void brakes(){
@@ -285,6 +310,11 @@ void intakeSpin(){
 }
 
 void armMove(){
+  if (con.ButtonL1.pressing() ==1 && con.ButtonL2.pressing()==1) {
+    armMotor.startRotateTo(200, vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+    vex::task::sleep(100);
+    intake(-150,100);
+  }
   if(arm == 0) {
     if (con.ButtonUp.pressing() == 1) {
       armMotor.spin(vex::directionType::fwd, 100, vex::velocityUnits::rpm);
