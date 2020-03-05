@@ -2,8 +2,8 @@
 using namespace vex;
 
 float motor_max = 100;
-bool arm = -1;
-int   autonomousSelection = 7;
+bool arm = 0;
+int   autonomousSelection = 0;
 
 void intakeSpin();
 void armMove();
@@ -18,6 +18,7 @@ void intake(double ecount, double speed);
 void turnLeft(double count, double speed);
 void turnRight(double count, double speed);
 void ddtrain(double ecount, double speed);
+void shwaydrive(double ecount, double speed);
 
 void displayButtonControls( int index, bool pressed );
 void userTouchCallbackPressed();
@@ -67,15 +68,38 @@ void pre_auton(void) {
 void autonomous(void) {
 if(autonomousSelection == 0) { //Red Unprotected 
   
-}
-if(autonomousSelection == 4) { //Red Protetected
+  driveForward(10, 75);
+  driveBackward(5, 75);
+  intake(-1100, 100);
+  
+  rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
+  leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
+  driveForward(27, 100);
+  vex::task::sleep(50);
+  driveBackward(2, 165);
+  turnLeft(170, 50);
+  shwaydrive(-900, 90);
+  turnRight(130,75);
+
+  /*
+
+  */
   
 }
-if(autonomousSelection == 3) { //Blue Unprotected
-  
+else if(autonomousSelection == 2) { //Red Protetected
+  con.Screen.clearLine(3);
+    con.Screen.setCursor(3, 7);
+    con.Screen.print("RedProt");
 }
-if(autonomousSelection == 7) { //Blue Protected
-  
+else if(autonomousSelection == 1) { //Blue Unprotected
+  con.Screen.clearLine(3);
+    con.Screen.setCursor(3, 7);
+    con.Screen.print("BlueUnprot");
+}
+else if(autonomousSelection == 3) { //Blue Protected
+  con.Screen.clearLine(3);
+    con.Screen.setCursor(3, 7);
+    con.Screen.print("Blueprot");
 }
 
   ////////////////// 9 Point Begin ///////////////////////
@@ -143,7 +167,7 @@ void usercontrol(void) {
        
     // float motor_max = 100;
     int left_power = left_new_percent * motor_max;
-    int right_power = right_new_percent * motor_max;
+    int right_power = right_new_percent * motor_max *7/9;
        
     leftMotorA.spin(fwd,left_power,vex::velocityUnits::pct);
     leftMotorB.spin(fwd,left_power,vex::velocityUnits::pct);
@@ -156,7 +180,7 @@ void usercontrol(void) {
     armMove(); 
     ControlType();
     Cubes();
-    CTimer();
+    // CTimer();
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
@@ -188,7 +212,7 @@ int main() {
     Brain.Screen.printAt( 177,  125, "  9447H  " );
     Brain.Screen.printAt(172, 90, "UnProtected");
     Brain.Screen.printAt(178, 160, "Protected");
-    wait(100, msec);
+    wait(25, msec);
   }
 }
 
@@ -264,7 +288,7 @@ void resetBrakes(){
 }
 
 void pStack() {
-  double kP =0.2;
+  double kP =0.15;
   if( arm == 0){
   if (con.ButtonL1.pressing() ==1) {
     double error = 1100 - trayMotor.position(rotationUnits::deg);
@@ -274,7 +298,7 @@ void pStack() {
     trayMotor.spin(directionType::fwd);
 
   } else if(con.ButtonL2.pressing() ==1) {
-    trayMotor.rotateTo(0,vex::rotationUnits::deg, 80,vex::velocityUnits::rpm);
+    trayMotor.startRotateTo(0,vex::rotationUnits::deg, 80,vex::velocityUnits::rpm);
   }
   else{
     trayMotor.stop();
@@ -370,6 +394,18 @@ void turnRight(double ecount, double speed) {
   rightMotorA.startRotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
   leftMotorB.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
   rightMotorB.rotateTo(-ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+}
+
+void shwaydrive(double ecount, double speed) {
+  leftMotorA.resetRotation();
+  rightMotorA.resetRotation();
+  leftMotorB.resetRotation();
+  rightMotorB.resetRotation();
+  
+  leftMotorA.startRotateTo(ecount+30,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+  rightMotorA.startRotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+  leftMotorB.startRotateTo(ecount+30,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
+  rightMotorB.rotateTo(ecount,vex::rotationUnits::deg, speed,vex::velocityUnits::rpm);
 }
 
 void ddtrain(double ecount, double speed){ //go forward with and go to next line of code
