@@ -66,90 +66,85 @@ void pre_auton(void) {
 
 
 void autonomous(void) {
-if(autonomousSelection == 0) { //Red Unprotected 
-  
-  driveForward(10, 75);
-  driveBackward(5, 75);
+if(autonomousSelection == 0) { //Red Unprotected   
+  driveForward(15, 100);
+  driveBackward(8, 50);
   intake(-1100, 100);
-  
+  armMotor.startRotateTo(0,vex::rotationUnits::deg, 80,vex::velocityUnits::rpm);
   rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
   leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
-  driveForward(27, 100);
-  vex::task::sleep(50);
-  driveBackward(2, 165);
-  turnLeft(170, 50);
-  shwaydrive(-900, 90);
-  turnRight(130,75);
-
-  /*
-
-  */
-  
+  driveForward(31, 50);
+  driveBackward(10, 75);
+  leftIntake.stop();
+  rightIntake.stop();
+  turnRight(360, 55);
+  intake(-200, 100);
+  trayMotor.startRotateTo(1200,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+  driveForward(17, 75);
+  vex::task::sleep(850);
+  trayMotor.startRotateTo(0,vex::rotationUnits::deg,80,velocityUnits::rpm);
+  driveBackward(10, 75);
 }
 else if(autonomousSelection == 2) { //Red Protetected
-  con.Screen.clearLine(3);
-    con.Screen.setCursor(3, 7);
-    con.Screen.print("RedProt");
+    driveForward(12, 75);
+    driveBackward(6, 75);
+    intake(-1100, 100);
+    armMotor.startRotateTo(10,vex::rotationUnits::deg,80,velocityUnits::rpm);
+    rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
+    leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
+    driveForward(25, 75);
+    turnLeft(260, 75);
+    driveForward(15, 75);
+    turnLeft(105, 75);
+    leftIntake.stop();
+    rightIntake.stop();
+    trayMotor.startRotateTo(1000,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+    intake(-200, 100);
+    driveForward(17, 75);
+    vex::task::sleep(750);
+    trayMotor.startRotateTo(-60,vex::rotationUnits::deg,80,velocityUnits::rpm);
+    driveBackward(15, 100);
 }
 else if(autonomousSelection == 1) { //Blue Unprotected
-  con.Screen.clearLine(3);
-    con.Screen.setCursor(3, 7);
-    con.Screen.print("BlueUnprot");
+  driveForward(15, 100);
+  driveBackward(8, 100);
+  intake(-1100, 100);
+  // armMotor.startRotateTo(0,vex::rotationUnits::deg, 80,vex::velocityUnits::rpm);
+  rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
+  leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
+  driveForward(31, 50);
+  driveBackward(10, 75);
+  leftIntake.stop();
+  rightIntake.stop();
+  turnLeft(380, 75);
+  intake(-200, 100);
+  trayMotor.startRotateTo(1200,vex::rotationUnits::deg, 80,vex::velocityUnits::rpm);
+  driveForward(17, 75);
+  vex::task::sleep(750);
+  trayMotor.startRotateTo(0,vex::rotationUnits::deg,80,velocityUnits::rpm);
+  driveBackward(10, 100);
 }
 else if(autonomousSelection == 3) { //Blue Protected
-  con.Screen.clearLine(3);
-    con.Screen.setCursor(3, 7);
-    con.Screen.print("Blueprot");
-}
-
-  ////////////////// 9 Point Begin ///////////////////////
-  // rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
-  // leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
-  // vex::task::sleep(2000);
-  //   //Toggles the intakes on to pick up cubes
-  // driveForward(40, 50);
-  //   //Goes forward picking up the preload and the 4 cubes in a row
-  // turnLeft(45, 50);
-  //   //We turn left after picking up the cubes so we are at the right angle to backup behind the new row of cubes for us to pick up.
-  // leftIntake.stop();
-  // rightIntake.stop();
-  //   //we stop spinning the intakes before we begin backing up.
-  // driveBackward(30, 100);
-  //   //We go backwards untill the robot is behind the next row of cubes for us to pickup
-  // turnRight(45, 50);
-    //The robot turns right to face the cubes that we want to pick up
-  ////////////////// 5 Point Begin ///////////////////////
-  //  /*
-  // rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
-  // leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::rpm);
-  // // vex::task::sleep(2000);
-  //   //Toggles the intakes on to pick up this row of cubes
-  // driveForward(45, 50); 
-  // vex::task::sleep(100);
-  //   //Goes forward so the intakes actually intake cubes
-  // driveBackward(30, 100);
-  //   //Goes back so we can turn right to face the goal zone at a perfect 45 degree angle
-  // turnRight(345, 75); //Red 450 Blue 360
-  //   //Turns right to look towards the goal zone at a 45 degree angle
-  // leftIntake.stop();
-  // rightIntake.stop();
-  //   //We stop the intakes before going into the goal goal zones
-  // vex::task::sleep(100);
-  // intake(-400, 100);
-  // trayMotor.startRotateTo(1100,vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
-  // driveForward(11, 100);
-  // vex::task::sleep(1500);
-  // */
-  
-  // vex::task::sleep(100);
-  // ddtrain(100, 100);
-  // vex::task::sleep(500);
-  // driveBackward(10, 50);
-  // driveForward(2, 75);
-  
-  /**/
-    //We go forward into the goal zone then stack the 9 cubes and back up after bringing the tray perpindicular to the ground.
+  driveForward(12, 75);
+  driveBackward(6, 75);
+  intake(-1100, 100);
+  armMotor.startRotateTo(-10,vex::rotationUnits::deg,80,velocityUnits::rpm);
+  rightIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
+  leftIntake.spin(vex::directionType::fwd, 100,vex::velocityUnits::pct);
+  driveForward(25, 75);
+  turnRight(260, 75);
+  driveForward(15, 75);
+  turnRight(105, 75);
+  leftIntake.stop();
+  rightIntake.stop();
+  trayMotor.startRotateTo(1200,vex::rotationUnits::deg, 80,vex::velocityUnits::rpm);
+  intake(-200, 100);
+  driveForward(18, 75);
+  vex::task::sleep(750);
+  trayMotor.startRotateTo(-60,vex::rotationUnits::deg,80,velocityUnits::rpm);
+  driveBackward(15, 100);
   }
+}
 
 
 void usercontrol(void) {
@@ -167,7 +162,7 @@ void usercontrol(void) {
        
     // float motor_max = 100;
     int left_power = left_new_percent * motor_max;
-    int right_power = right_new_percent * motor_max *7/9;
+    int right_power = right_new_percent * motor_max; //*7/9;
        
     leftMotorA.spin(fwd,left_power,vex::velocityUnits::pct);
     leftMotorB.spin(fwd,left_power,vex::velocityUnits::pct);
@@ -290,7 +285,7 @@ void resetBrakes(){
 void pStack() {
   double kP =0.15;
   if( arm == 0){
-  if (con.ButtonL1.pressing() ==1) {
+  if (con.ButtonL1.pressing() ==1 && con.ButtonL2.pressing() ==0) {
     double error = 1100 - trayMotor.position(rotationUnits::deg);
     double Tpower = error*kP;
     // trayMotor.startRotateTo(1050,vex::rotationUnits::deg, Tpower,vex::velocityUnits::rpm);
@@ -298,7 +293,7 @@ void pStack() {
     trayMotor.spin(directionType::fwd);
 
   } else if(con.ButtonL2.pressing() ==1) {
-    trayMotor.startRotateTo(0,vex::rotationUnits::deg, 80,vex::velocityUnits::rpm);
+    trayMotor.startRotateTo(-60,vex::rotationUnits::deg, 80,vex::velocityUnits::rpm);
   }
   else{
     trayMotor.stop();
@@ -335,9 +330,9 @@ void intakeSpin(){
 
 void armMove(){
   if (con.ButtonL1.pressing() ==1 && con.ButtonL2.pressing()==1) {
-    armMotor.startRotateTo(200, vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
+    armMotor.startRotateTo(400, vex::rotationUnits::deg, 100,vex::velocityUnits::rpm);
     vex::task::sleep(100);
-    intake(-150,100);
+    intake(-250,100);
   }
   if(arm == 0) {
     if (con.ButtonUp.pressing() == 1) {
